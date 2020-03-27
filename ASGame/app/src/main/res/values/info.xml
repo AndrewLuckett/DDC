@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="placeholder_name">%name%</string>
+    <string name="placeholder_desc">%Description%</string>
+    <string name="placeholder_flav">%funny comment%</string>
+    <string name="placeholder_hp">HP: %i</string>
+    <string name="placeholder_cost">Cost: %i</string>
+
+    <string name="base_name">Blockade</string>
+    <string name="base_desc">Acts as a wall to block creeps.</string>
+    <string name="base_flav">%funny comment%</string>
+
+    <string name="basic_name">Pea shooter</string>
+    <string name="basic_desc">Basic gun that targets ground units.</string>
+    <string name="basic_flav">Wow. How original</string>
+
+    <string name="gauss_name">Laser cannon</string>
+    <string name="gauss_desc">Laser gun that targets ground units but will damage anything caught in its fire.</string>
+    <string name="gauss_flav">Shoop da whoop</string>
+
+    <string name="radar_name">Radar tower</string>
+    <string name="radar_desc">Increases range and damage of nearby towers.</string>
+    <string name="radar_flav">Дуга́ : 10 MW of pure face melting power.</string>
+
+    <string name="aa_name">Anti air gun</string>
+    <string name="aa_desc">Basic gun that targets air units.</string>
+    <string name="aa_flav">Sie nennen es das Flugabwehrkanone</string>
+
+</resources>
