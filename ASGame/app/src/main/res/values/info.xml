@@ -3,8 +3,7 @@
     <string name="placeholder_name">%name%</string>
     <string name="placeholder_desc">%Description%</string>
     <string name="placeholder_flav">%funny comment%</string>
-    <string name="placeholder_hp">HP: %i</string>
-    <string name="placeholder_cost">Cost: %i</string>
+    <string name="placeholder_data">HP: %d \t\t Cost: %d</string>
 
     <string name="base_name">Blockade</string>
     <string name="base_desc">Acts as a wall to block creeps.</string>
@@ -23,7 +22,7 @@
     <string name="radar_flav">Дуга́ : 10 MW of pure face melting power.</string>
 
     <string name="aa_name">Anti air gun</string>
-    <string name="aa_desc">Basic gun that targets air units.</string>
+    <string name="aa_desc">Basic gun that will only target air units.</string>
     <string name="aa_flav">Sie nennen es das Flugabwehrkanone</string>
 
 </resources>

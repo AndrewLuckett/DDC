@@ -5,4 +5,7 @@
     <color name="colorAccent">#03DAC5</color>
 
     <color name="black_overlay">#66000000</color>
+
+    <color name="main_back">#A6A6A6</color>
+    <color name="alt_back">#B5B5B5</color>
 </resources>
