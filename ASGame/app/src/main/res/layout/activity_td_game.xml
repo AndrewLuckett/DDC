@@ -6,12 +6,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/main_back"
     android:orientation="vertical"
     tools:context=".front.TdGame">
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="4dp"
         android:layout_weight="1">
 
         <ImageView
@@ -32,6 +34,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="2"
+            android:background="@color/alt_back"
             android:orientation="horizontal">
 
             <ImageButton
@@ -39,68 +42,87 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:background="?attr/selectableItemBackground"
                 android:contentDescription="@string/base_name"
-                android:scaleType="centerInside"
-                app:srcCompat="@drawable/bin2den2" />
+                android:scaleType="fitCenter"
+                app:srcCompat="@drawable/ti_base" />
 
             <ImageButton
                 android:id="@+id/ib_basic"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:background="?attr/selectableItemBackground"
                 android:contentDescription="@string/basic_name"
-                android:scaleType="centerCrop"
-                app:srcCompat="@drawable/bin2den2" />
+                android:scaleType="fitCenter"
+                app:srcCompat="@drawable/ti_basic" />
 
             <ImageButton
                 android:id="@+id/ib_gauss"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:background="?attr/selectableItemBackground"
                 android:contentDescription="@string/gauss_name"
-                android:scaleType="centerCrop"
-                app:srcCompat="@drawable/bin2den2" />
+                android:scaleType="fitCenter"
+                app:srcCompat="@drawable/ti_gauss" />
 
             <ImageButton
-                android:id="@+id/imageButton4"
+                android:id="@+id/ib_aa"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:scaleType="centerCrop"
-                app:srcCompat="@drawable/bin2den2" />
+                android:background="?attr/selectableItemBackground"
+                android:contentDescription="@string/aa_name"
+                android:scaleType="fitCenter"
+                app:srcCompat="@drawable/ti_aa" />
 
             <ImageButton
-                android:id="@+id/imageButton5"
+                android:id="@+id/ib_radar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:scaleType="centerCrop"
-                app:srcCompat="@drawable/bin2den2" />
+                android:background="?attr/selectableItemBackground"
+                android:contentDescription="@string/radar_name"
+                android:scaleType="fitCenter"
+                app:srcCompat="@drawable/ti_radar" />
 
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:layout_weight="1">
+            android:layout_margin="4dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/tv_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:text="@string/placeholder_name"
-                android:layout_weight="1" />
+                android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/tv_desc"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="4"
+                android:layout_weight="5"
+                android:gravity="end"
                 android:text="@string/placeholder_desc" />
 
             <TextView
-                android:id="@+id/textView6"
+                android:id="@+id/tv_data"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/placeholder_data" />
+
+            <TextView
+                android:id="@+id/tv_humour"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"

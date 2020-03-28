@@ -70,7 +70,6 @@ public class MainActivity extends AppCompatActivity {
         int highscore = prefs.getInt("highscore_convert", 0); //0 is the default value
 
         TextView scorebox = findViewById(R.id.highscoreconvert);
-        scorebox.setText(getString(R.string.toaa));
         scorebox.setText("High Score: " + highscore + ".");
 
         highscore = prefs.getInt("highscore_add", 0); //0 is the default value
