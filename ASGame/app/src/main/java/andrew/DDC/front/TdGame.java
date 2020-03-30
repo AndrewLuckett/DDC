@@ -2,7 +2,6 @@ package andrew.DDC.front;
 
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,54 +16,52 @@ public class TdGame extends AppCompatActivity {
 
         setContentView(R.layout.activity_td_game);
         setupButtons();
+
+        ArenaView a = (ArenaView) findViewById(R.id.ArenaView);
+        a.setup(10, 10);
     }
 
-    public void setupButtons(){
-        ImageButton butt = findViewById(R.id.ib_base);
-        butt.setOnClickListener(new View.OnClickListener() {
+    public void setupButtons() {
+        findViewById(R.id.ib_base).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setInfoText(TowerTypes.Base,100);
+                setInfoText(TowerTypes.Base, 100);
             }
         });
-        butt = findViewById(R.id.ib_basic);
-        butt.setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.ib_basic).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setInfoText(TowerTypes.Basic,100);
+                setInfoText(TowerTypes.Basic, 100);
             }
         });
-        butt = findViewById(R.id.ib_gauss);
-        butt.setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.ib_gauss).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setInfoText(TowerTypes.Gauss,100);
+                setInfoText(TowerTypes.Gauss, 100);
             }
         });
-        butt = findViewById(R.id.ib_radar);
-        butt.setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.ib_radar).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setInfoText(TowerTypes.Radar,100);
+                setInfoText(TowerTypes.Radar, 100);
             }
         });
-        butt = findViewById(R.id.ib_aa);
-        butt.setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.ib_aa).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setInfoText(TowerTypes.Aa,100);
+                setInfoText(TowerTypes.Aa, 100);
             }
         });
     }
 
-    public void setInfoText(TowerTypes tt, int hp){
+    public void setInfoText(TowerTypes tt, int hp) {
         TextView tv_name = findViewById(R.id.tv_name);
         TextView tv_desc = findViewById(R.id.tv_desc);
         TextView tv_data = findViewById(R.id.tv_data);
         TextView tv_humour = findViewById(R.id.tv_humour);
 
         int cost = 50;
-        switch(tt){
+        switch (tt) {
             default:
                 tv_name.setText(getString(R.string.base_name));
                 tv_desc.setText(getString(R.string.base_desc));
