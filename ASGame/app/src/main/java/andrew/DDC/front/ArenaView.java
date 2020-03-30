@@ -52,12 +52,12 @@ public class ArenaView extends View {
         mPaint.setColor(Color.GRAY);
 
 
-        stuff.add(new Drawable(R.drawable.ti_aa, 10, 0, 0, true));
-        stuff.add(new Drawable(R.drawable.ti_basic, 10, 1, 0, true));
-        stuff.add(new Drawable(R.drawable.ti_gauss, 10, 8, 0, true));
-        stuff.add(new Drawable(R.drawable.ti_radar, 10, 9, 0, true));
+        stuff.add(new Drawable(R.drawable.tt_aa, 60, 0, 0, true));
+        stuff.add(new Drawable(R.drawable.tt_basic, 12, 1, 1, true));
+        stuff.add(new Drawable(R.drawable.tt_gauss, 99, 8, 8, true));
+        stuff.add(new Drawable(R.drawable.tt_radar, 18, 9, 9, true));
 
-        onSizeChanged(getWidth(), getHeight(), 0, 0);
+        onSizeChanged(getWidth(), getHeight(), 0, 0); //Just in case
     }
 
 
@@ -70,14 +70,15 @@ public class ArenaView extends View {
         canvas.drawRect(x, y, getWidth() - x, getHeight() - y, mPaint);
 
         for (Drawable d : stuff) {
-            gent.setScale(scale / 500f, scale / 500f);
+            gent.setScale(scale / 500f, scale / 500f); //why div 500?! when image is 400 square
+            //Stuff like that reminds me why I hate ui stuff
             gent.postTranslate((d.getXoff() + 1) * scale, (d.getYoff() + 1) * scale);
             gent.postTranslate(offset.getX(), offset.getY());
 
             if (d.isBaseRequired()) {
-                canvas.drawBitmap(drawableToBitmap(R.drawable.ti_base), gent, null);
+                canvas.drawBitmap(drawableToBitmap(R.drawable.tt_base), gent, null);
             }
-            //gent.preRotate(d.getRotation());
+            gent.preRotate(d.getRotation(),250,250);
             canvas.drawBitmap(drawableToBitmap(d.getGId()), gent, null);
         }
     }
