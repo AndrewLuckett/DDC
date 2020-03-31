@@ -33,7 +33,7 @@ public class ArenaView extends View {
     int arenaWidth = 10, arenaHeight = 10;
     Vec2 offset = new Vec2(0, 0);
     Matrix gent = new Matrix();
-    HashMap<Integer,Bitmap> res = new HashMap<>();
+    HashMap<Integer, Bitmap> res = new HashMap<>();
 
     ArrayList<Drawable> stuff = new ArrayList<>();
     private GameThread game;
@@ -41,12 +41,12 @@ public class ArenaView extends View {
 
     public ArenaView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
-        setup(10, 10,null); //Just in case
+        setup(10, 10, null); //Just in case
     }
 
     public ArenaView(Context context) {
         super(context);
-        setup(10, 10,null); //Just in case
+        setup(10, 10, null); //Just in case
     }
 
     public void setup(int arenaWidth, int arenaHeight, GameThread game) {
@@ -60,7 +60,7 @@ public class ArenaView extends View {
 
         backPaint.setAntiAlias(true);
         backPaint.setStyle(Paint.Style.STROKE);
-        backPaint.setColor(ContextCompat.getColor(getContext(),R.color.main_back));
+        backPaint.setColor(ContextCompat.getColor(getContext(), R.color.main_back));
 
         onSizeChanged(getWidth(), getHeight(), 0, 0); //Just in case
     }
@@ -70,8 +70,8 @@ public class ArenaView extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
+        game.setSafeToDraw(false); //In case ui calls a redraw
         drawBounds(canvas);
-
 
         for (Drawable d : stuff) {
             gent.setScale(scale / 200f, scale / 200f); //Fixed image size value
@@ -83,23 +83,24 @@ public class ArenaView extends View {
                 canvas.drawBitmap(drawableToBitmap(R.drawable.tt_base), gent, null);
                 //Log.v("Mat","M: "+ gent);
             }
-            gent.preRotate(d.getRotation(),100,100);
+            gent.preRotate(d.getRotation(), 100, 100);
             canvas.drawBitmap(drawableToBitmap(d.getGId()), gent, null);
         }
+        game.setSafeToDraw(true);
     }
 
-    private void drawBounds(Canvas canvas){
+    private void drawBounds(Canvas canvas) {
         float x = offset.getX() + scale / 2;
         float y = offset.getY() + scale / 2;
         canvas.drawRect(x, y, getWidth() - x, getHeight() - y, boundaryPaint);
 
-        float ymid = (arenaHeight/2f) * scale + offset.getY() + scale;
-        canvas.drawRect(x, ymid - 1.5f*scale, getWidth() - x, ymid + 1.5f*scale, backPaint);
+        float ymid = (arenaHeight / 2f) * scale + offset.getY() + scale;
+        canvas.drawRect(x, ymid - 1.5f * scale, getWidth() - x, ymid + 1.5f * scale, backPaint);
     }
 
 
     public Bitmap drawableToBitmap(int id) {
-        if(!res.containsKey(id)){
+        if (!res.containsKey(id)) {
             BitmapFactory.Options o = new BitmapFactory.Options();
             o.inScaled = false;
             res.put(id, BitmapFactory.decodeResource(getContext().getResources(), id, o));
@@ -126,10 +127,10 @@ public class ArenaView extends View {
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
-    public boolean onTouchEvent(MotionEvent ev){
-        if(ev.getAction() == MotionEvent.ACTION_DOWN) {
+    public boolean onTouchEvent(MotionEvent ev) {
+        if (ev.getAction() == MotionEvent.ACTION_DOWN) {
             //TODO: Calc what tile was clicked.
-            game.addClickEvent(new Point(0,0));
+            game.addClickEvent(new Point(0, 0));
         }
         return true;
     }
