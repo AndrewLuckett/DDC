@@ -14,6 +14,7 @@ import android.view.MotionEvent;
 import android.view.View;
 
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -25,7 +26,9 @@ import andrew.DDC.back.Vec2;
 
 public class ArenaView extends View {
 
-    Paint mPaint = new Paint();
+    Paint boundaryPaint = new Paint();
+    Paint backPaint = new Paint();
+
     float scale = 1f;
     int arenaWidth = 10, arenaHeight = 10;
     Vec2 offset = new Vec2(0, 0);
@@ -51,10 +54,13 @@ public class ArenaView extends View {
         this.arenaHeight = arenaHeight;
         this.game = game;
 
-        mPaint.setAntiAlias(true);
+        boundaryPaint.setAntiAlias(true);
+        boundaryPaint.setStyle(Paint.Style.STROKE);
+        boundaryPaint.setColor(Color.GRAY);
 
-        mPaint.setStyle(Paint.Style.STROKE);
-        mPaint.setColor(Color.GRAY);
+        backPaint.setAntiAlias(true);
+        backPaint.setStyle(Paint.Style.STROKE);
+        backPaint.setColor(ContextCompat.getColor(getContext(),R.color.main_back));
 
         onSizeChanged(getWidth(), getHeight(), 0, 0); //Just in case
     }
@@ -64,9 +70,8 @@ public class ArenaView extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
-        float x = offset.getX() + scale / 2;
-        float y = offset.getY() + scale / 2;
-        canvas.drawRect(x, y, getWidth() - x, getHeight() - y, mPaint);
+        drawBounds(canvas);
+
 
         for (Drawable d : stuff) {
             gent.setScale(scale / 200f, scale / 200f); //Fixed image size value
@@ -81,6 +86,15 @@ public class ArenaView extends View {
             gent.preRotate(d.getRotation(),100,100);
             canvas.drawBitmap(drawableToBitmap(d.getGId()), gent, null);
         }
+    }
+
+    private void drawBounds(Canvas canvas){
+        float x = offset.getX() + scale / 2;
+        float y = offset.getY() + scale / 2;
+        canvas.drawRect(x, y, getWidth() - x, getHeight() - y, boundaryPaint);
+
+        float ymid = (arenaHeight/2f) * scale + offset.getY() + scale;
+        canvas.drawRect(x, ymid - 1.5f*scale, getWidth() - x, ymid + 1.5f*scale, backPaint);
     }
 
 
@@ -105,7 +119,8 @@ public class ArenaView extends View {
             offset = new Vec2(0, (ma - mi) / 2);
             scale = mi / (arenaWidth + 2);
         }
-        mPaint.setStrokeWidth(scale);
+        boundaryPaint.setStrokeWidth(scale);
+        backPaint.setStrokeWidth(scale);
         //Log.v("Scale","S: "+ scale);
     }
 
@@ -113,6 +128,7 @@ public class ArenaView extends View {
     @Override
     public boolean onTouchEvent(MotionEvent ev){
         if(ev.getAction() == MotionEvent.ACTION_DOWN) {
+            //TODO: Calc what tile was clicked.
             game.addClickEvent(new Point(0,0));
         }
         return true;

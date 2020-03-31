@@ -10,17 +10,18 @@ import java.util.ArrayList;
 import java.util.concurrent.ArrayBlockingQueue;
 
 import andrew.DDC.R;
+import andrew.DDC.back.towers.TowerTypes;
 
 
 public class GameThread extends Thread {
     private final int width;
     private final int height;
     private Handler mHandler;
-    ArrayBlockingQueue<Point> queue = new ArrayBlockingQueue<>(32);
-    ArrayList<Drawable> d = new ArrayList<>();
+    private ArrayBlockingQueue<Point> queue = new ArrayBlockingQueue<>(32);
+    private ArrayList<Drawable> d = new ArrayList<>();
 
     static final Integer sync = 1;
-    long lastFrame = System.nanoTime();
+    private long lastFrame = System.nanoTime();
 
     private float rot = 0;
 
@@ -35,7 +36,7 @@ public class GameThread extends Thread {
         while (true) {
             //Handle timings
             long now = System.nanoTime();
-            float dtms = (now-lastFrame)/1000000f;
+            float dtms = (now-lastFrame)/1000000f; //Whole last frame time
             Log.v("Fps","dtms = "+ dtms);
             Log.v("Fps","fps = "+ 1000f/dtms);
 
@@ -54,7 +55,7 @@ public class GameThread extends Thread {
                     Message msg = mHandler.obtainMessage();
                     Bundle b = new Bundle();
                     b.putSerializable("mType",MessageTypes.Selection);
-                    b.putSerializable("type",TowerTypes.Radar);
+                    b.putSerializable("type", TowerTypes.Radar);
                     b.putInt("hp", 999);
                     msg.setData(b);
                     mHandler.sendMessage(msg);
@@ -78,6 +79,7 @@ public class GameThread extends Thread {
             try {
                 Thread.sleep((long) Math.max(13-dtms,0)); //Keep us around 75 fps
                 //Don't have to wait on front side this way
+                //If phone too slow then hopefully arenaview will still be trying to draw latest data
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -109,6 +111,6 @@ public class GameThread extends Thread {
     }
 
     public ArrayList<Drawable> getDrawables() {
-        return d;
+        return new ArrayList<>(d);
     }
 }

@@ -1,4 +1,4 @@
-package andrew.DDC.back;
+package andrew.DDC.back.towers;
 
 public enum TowerTypes {
     Base(100, 1),
