@@ -10,15 +10,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity android:name=".front.MainActivity">
-
-        </activity>
-
-        <activity
-            android:name=".front.Game"
-            android:label="@string/title_activity_game"
-            android:theme="@style/AppTheme.NoActionBar" />
-
         <activity
             android:name=".front.TdGame"
             android:configChanges="orientation|keyboardHidden|screenSize"
