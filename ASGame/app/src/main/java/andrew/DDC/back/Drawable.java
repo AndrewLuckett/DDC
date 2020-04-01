@@ -5,19 +5,19 @@ public class Drawable {
     private float rotation;
     private float Xoff;
     private float Yoff;
-    private boolean base;
+    private boolean tower;
 
     public Drawable(int GId, float rotation, float Xoff, float Yoff){
         this.GId = GId;
         this.rotation = rotation;
         this.Xoff = Xoff;
         this.Yoff = Yoff;
-        this.base = false;
+        this.tower = false;
     }
 
     public Drawable(int GId, float rotation, float Xoff, float Yoff, boolean base){
         this(GId,rotation,Xoff,Yoff);
-        this.base = base;
+        this.tower = base;
     }
 
     public int getGId() {
@@ -36,7 +36,7 @@ public class Drawable {
         return Yoff;
     }
 
-    public boolean isBaseRequired() {
-        return base;
+    public boolean isTower() {
+        return tower;
     }
 }

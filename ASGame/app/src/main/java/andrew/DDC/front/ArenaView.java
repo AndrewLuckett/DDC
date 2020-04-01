@@ -10,6 +10,7 @@ import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Point;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -44,10 +45,12 @@ public class ArenaView extends View {
         setup(10, 10, null); //Just in case
     }
 
+
     public ArenaView(Context context) {
         super(context);
         setup(10, 10, null); //Just in case
     }
+
 
     public void setup(int arenaWidth, int arenaHeight, GameThread game) {
         this.arenaWidth = arenaWidth;
@@ -66,6 +69,12 @@ public class ArenaView extends View {
     }
 
 
+    public void update() {
+        stuff = game.getDrawables();
+        invalidate();
+    }
+
+
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
@@ -74,17 +83,21 @@ public class ArenaView extends View {
         drawBounds(canvas);
 
         for (Drawable d : stuff) {
-            gent.setScale(scale / 200f, scale / 200f); //Fixed image size value
-            //Only generate 200*200 sized images for this code
-            gent.postTranslate((d.getXoff() + 1) * scale, (d.getYoff() + 1) * scale);
-            gent.postTranslate(offset.getX(), offset.getY());
+            gent.setScale(scale / 200f, scale / 200f); //Scale image
+            gent.postTranslate((d.getXoff() + 1) * scale, (d.getYoff() + 1) * scale); //Locate image
+            gent.postTranslate(offset.getX(), offset.getY()); //Add main offset
 
-            if (d.isBaseRequired()) {
-                canvas.drawBitmap(drawableToBitmap(R.drawable.tt_base), gent, null);
-                //Log.v("Mat","M: "+ gent);
+            Bitmap out = drawableToBitmap(d.getGId());
+            float outoff = out.getWidth() / 2f; //All images must be square
+
+            if (d.isTower()) { //If tower draw base
+                canvas.drawBitmap(drawableToBitmap(R.drawable.tt_base), gent, null); //Draw base
+            } else { //If not offset image by half to centre on point
+                gent.preTranslate(-outoff, -outoff);
             }
-            gent.preRotate(d.getRotation(), 100, 100);
-            canvas.drawBitmap(drawableToBitmap(d.getGId()), gent, null);
+            gent.preRotate(d.getRotation(), outoff, outoff); //Rotate about centre
+            canvas.drawBitmap(out, gent, null);
+
         }
         game.setSafeToDraw(true);
     }
@@ -108,6 +121,7 @@ public class ArenaView extends View {
         return res.get(id);
     }
 
+
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         float mi = Math.min(w, h);
@@ -125,18 +139,32 @@ public class ArenaView extends View {
         //Log.v("Scale","S: "+ scale);
     }
 
+
+    private int dr = 0;
+
     @SuppressLint("ClickableViewAccessibility")
     @Override
     public boolean onTouchEvent(MotionEvent ev) {
-        if (ev.getAction() == MotionEvent.ACTION_DOWN) {
-            //TODO: Calc what tile was clicked.
-            game.addClickEvent(new Point(0, 0));
+        switch (ev.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                dr = 0;
+                break;
+            case MotionEvent.ACTION_MOVE:
+                dr++;
+                break;
+            case MotionEvent.ACTION_UP:
+                Log.v("Click", "Moved for " + dr + " events");
+                if (dr < 5) {
+                    handleClick(ev.getX(), ev.getY());
+                }
+                break;
         }
         return true;
     }
 
-    public void update() {
-        stuff = game.getDrawables();
-        invalidate();
+
+    public void handleClick(float x, float y) {
+        //TODO: Calc what tile was clicked.
+        game.addClickEvent(new Point(0, 0));
     }
 }
