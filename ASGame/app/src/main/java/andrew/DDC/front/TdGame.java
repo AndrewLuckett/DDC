@@ -50,10 +50,10 @@ public class TdGame extends AppCompatActivity {
         setContentView(R.layout.activity_td_game);
         setupButtons();
 
-        GameThread game = new GameThread(20, 20, mHandler);
+        GameThread game = new GameThread(16, 16, mHandler);
         game.start();
         a = findViewById(R.id.ArenaView);
-        a.setup(20, 20, game);
+        a.setup(16, 16, game);
 
     }
 

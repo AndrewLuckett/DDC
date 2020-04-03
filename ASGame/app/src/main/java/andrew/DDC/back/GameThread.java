@@ -33,6 +33,7 @@ public class GameThread extends Thread {
     //Is it safe to ask arenaView to draw again
 
     private float rot = 0;
+    private float fps;
     //Temp
 
 
@@ -84,20 +85,23 @@ public class GameThread extends Thread {
 
                 float dtfd = (now - lastDraw) / 1000000f; //Whole last frame time
                 lastDraw = now;
-                Log.v("Fps", "fps = " + 1000f / dtfd);
-                Log.v("Fps", "tps = " + 1000f / dtms);
+
+                fps = 1000f / dtfd;
+
+                //Log.v("Fps", "fps = " + 1000f / dtfd);
+                //Log.v("Fps", "tps = " + 1000f / dtms);
             }
 
 
             //Temporary forced slowdown
-            /*
+
             try {
                 Thread.sleep(1);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
 
-             */
+
         }
     }
 
@@ -121,13 +125,18 @@ public class GameThread extends Thread {
     private void createDrawable() {
         //rot += 0.75f;
         db = new ArrayList<>();
-        for (int i = 2; i < height; i++) {
-            for (int j = 2; j < width; j++) {
-                db.add(new Drawable(R.drawable.tt_radar, rot, j, i, true));
+        for (int i = 0; i < height; i++) {
+            for (int j = 0; j < width; j++) {
+                db.add(new Drawable(R.drawable.tt_radar, rot, j, i, true)); //Tower
+                db.add(new Drawable(R.drawable.tt_aa, rot, j, i, false)); //Bug
+                db.add(new Drawable(R.drawable.tt_gauss, rot, j, i, false)); //Proj1
+                db.add(new Drawable(R.drawable.tt_basic, 180 + rot, j, i, false)); //Proj2
+                db.add(new Drawable(R.drawable.tt_basic, 360 - rot, j, i, false)); //Proj3
+                //Literal worst case
             }
         }
-        db.add(new Drawable(R.drawable.tt_gauss,rot,1,1,true));
-        db.add(new Drawable(R.drawable.pr_gauss,rot,1.5f,1.5f,false));
+        //db.add(new Drawable(R.drawable.tt_gauss,rot,1,1,true));
+        //db.add(new Drawable(R.drawable.pr_gauss,rot,1.5f,1.5f,false));
         //Remember towers use tl corner other ents use centre!
         //Placeholder testing
 
@@ -154,5 +163,13 @@ public class GameThread extends Thread {
 
     public void setSafeToDraw(boolean safe) {
         safeToDraw = safe;
+    }
+
+    public int getScore() {
+        return (int) fps;
+    }
+
+    public int getCoins() {
+        return db.size();
     }
 }
