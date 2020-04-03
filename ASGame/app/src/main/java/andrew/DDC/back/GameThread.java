@@ -21,13 +21,15 @@ public class GameThread extends Thread {
     private ArrayBlockingQueue<Point> inputQueue = new ArrayBlockingQueue<>(32);
     //Input presses, queue for thread safety
 
-    private ArrayList<Drawable> db = new ArrayList<>();
+    private volatile ArrayList<Drawable> db = new ArrayList<>();
     //Render array, warning shared. Not thread safe.
 
     private long lastFrame = 0;
     //Time of start of last frame
 
-    private boolean safeToDraw = false;
+    private long lastDraw = 0;
+
+    private volatile boolean safeToDraw = false;
     //Is it safe to ask arenaView to draw again
 
     private float rot = 0;
@@ -50,9 +52,6 @@ public class GameThread extends Thread {
             //Handle timings
             long now = System.nanoTime();
             float dtms = (now - lastFrame) / 1000000f; //Whole last frame time
-            //Log.v("Fps", "dtms = " + dtms);
-            //Log.v("Fps", "fps = " + 1000f / dtms);
-
             lastFrame = now;
 
 
@@ -82,17 +81,23 @@ public class GameThread extends Thread {
                 createDrawable();
                 //Most make more sense. But I figure why bother
                 // calculating things if we cant even draw them.
+
+                float dtfd = (now - lastDraw) / 1000000f; //Whole last frame time
+                lastDraw = now;
+                Log.v("Fps", "fps = " + 1000f / dtfd);
+                Log.v("Fps", "tps = " + 1000f / dtms);
             }
 
-            //Sleep
-            now = System.nanoTime();
-            dtms = (now - lastFrame) / 1000000f; //How long this frame has taken so far.
+
+            //Temporary forced slowdown
+            /*
             try {
-                Thread.sleep((long) Math.max(13 - dtms, 0)); //Keep us around 75 fps
-                //By making this frame last around 13ms
+                Thread.sleep(1);
             } catch (InterruptedException e) {
-                Log.v("Warning", "InterruptException on frame Sleep");
+                e.printStackTrace();
             }
+
+             */
         }
     }
 
