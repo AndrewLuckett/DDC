@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">DDC</string>
+    <string name="app_name">TdGame</string>
     <string name="hello_world">Hello world!</string>
 
     <string name="title_activity_td_game">TdGame</string>

@@ -9,6 +9,7 @@ import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Point;
+import android.graphics.Typeface;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -16,6 +17,7 @@ import android.view.View;
 
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
+import androidx.core.content.res.ResourcesCompat;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -27,10 +29,10 @@ import andrew.DDC.back.Vec2;
 
 public class ArenaView extends View {
 
-    private Paint boundaryPaint = new Paint();
-    private Paint backPaint = new Paint();
-    private Paint tp = new Paint();
-    private Paint tpr = new Paint();
+    private Paint boundaryPaint = new Paint();  //Boundary
+    private Paint backPaint = new Paint(); //Unpaint boundary
+    private Paint tp = new Paint(); //Text paint
+    private Paint tpr = new Paint(); //Text paint (right weighted)
 
     float scale = 1f;
     int arenaWidth = 10, arenaHeight = 10;
@@ -70,8 +72,11 @@ public class ArenaView extends View {
         backPaint.setStyle(Paint.Style.STROKE);
         backPaint.setColor(ContextCompat.getColor(getContext(), R.color.main_back));
 
+        Typeface tf = ResourcesCompat.getFont(getContext(),R.font.lavi);
         tp.setAntiAlias(true);
-        tpr.setAntiAlias(true);
+        tp.setTypeface(tf);
+
+        tpr = new Paint(tp);
         tpr.setTextAlign(Paint.Align.RIGHT);
 
         onSizeChanged(getWidth(), getHeight(), 0, 0); //Just in case
@@ -126,7 +131,7 @@ public class ArenaView extends View {
         y = (arenaHeight / 2f) * scale + offset.getY() + scale;
         canvas.drawRect(x, y - 1.5f * scale, getWidth() - x, y + 1.5f * scale, backPaint);
 
-        y = offset.getY() + scale/2f - (tp.descent() + tp.ascent())/2f;
+        y = offset.getY() + scale/2f - tp.ascent()/2f;
         canvas.drawText("Score: "+score,x,y,tp );
         canvas.drawText("Coins: "+coins,getWidth()-x,y,tpr);
     }
