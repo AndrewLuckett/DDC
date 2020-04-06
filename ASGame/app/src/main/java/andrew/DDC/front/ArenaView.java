@@ -37,7 +37,8 @@ public class ArenaView extends View {
     float scale = 1f;
     int arenaWidth = 10, arenaHeight = 10;
     Vec2 offset = new Vec2(0, 0);
-    Matrix gent = new Matrix();
+    Matrix canMat = new Matrix();
+    Matrix dMat = new Matrix();
     HashMap<Integer, Bitmap> res = new HashMap<>();
 
     private ArrayList<Drawable> stuff = new ArrayList<>();
@@ -72,7 +73,7 @@ public class ArenaView extends View {
         backPaint.setStyle(Paint.Style.STROKE);
         backPaint.setColor(ContextCompat.getColor(getContext(), R.color.main_back));
 
-        Typeface tf = ResourcesCompat.getFont(getContext(),R.font.lavi);
+        Typeface tf = ResourcesCompat.getFont(getContext(), R.font.lavi);
         tp.setAntiAlias(true);
         tp.setTypeface(tf);
 
@@ -90,7 +91,7 @@ public class ArenaView extends View {
         invalidate();
     }
 
-    Matrix ment = new Matrix();
+
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
@@ -98,25 +99,23 @@ public class ArenaView extends View {
         game.setSafeToDraw(false); //In case ui calls a redraw
         drawBounds(canvas);
 
-        Bitmap tow = drawableToBitmap(R.drawable.tt_base);
+        Bitmap tow = drawableToBitmap(R.drawable.tt_base); //Preload
 
-        gent.setScale(scale / 200f, scale / 200f); //Scale image
-        gent.postTranslate(offset.getX(), offset.getY()); //Add main offset
+        canvas.setMatrix(canMat);
 
         for (Drawable d : stuff) {
-            ment.set(gent);
-            ment.postTranslate((d.getXoff() + 1) * scale, (d.getYoff() + 1) * scale); //Locate image
+            dMat.setTranslate(d.getXoff() * 200, d.getYoff() * 200); //Locate image
 
             Bitmap out = drawableToBitmap(d.getGId());
             float outoff = out.getWidth() / 2f; //All images must be square
 
             if (d.isTower()) { //If tower draw base
-                canvas.drawBitmap(tow, ment, null); //Draw base
+                canvas.drawBitmap(tow, dMat, null); //Draw base
             } else { //If not offset image by half to centre on point
-                ment.preTranslate(-outoff, -outoff);
+                dMat.postTranslate(-outoff, -outoff);
             }
-            ment.preRotate(d.getRotation(), outoff, outoff); //Rotate about centre
-            canvas.drawBitmap(out, ment, null);
+            dMat.preRotate(d.getRotation(), outoff, outoff); //Rotate about centre
+            canvas.drawBitmap(out, dMat, null);
 
         }
 
@@ -131,9 +130,9 @@ public class ArenaView extends View {
         y = (arenaHeight / 2f) * scale + offset.getY() + scale;
         canvas.drawRect(x, y - 1.5f * scale, getWidth() - x, y + 1.5f * scale, backPaint);
 
-        y = offset.getY() + scale/2f - tp.ascent()/2f;
-        canvas.drawText("Score: "+score,x,y,tp );
-        canvas.drawText("Coins: "+coins,getWidth()-x,y,tpr);
+        y = offset.getY() + scale / 2f - tp.ascent() / 2f;
+        canvas.drawText("Score: " + score, x, y, tp);
+        canvas.drawText("Coins: " + coins, getWidth() - x, y, tpr);
     }
 
 
@@ -164,6 +163,9 @@ public class ArenaView extends View {
         tp.setTextSize(scale);
         tpr.setTextSize(scale);
         //Log.v("Scale","S: "+ scale);
+
+        canMat.setScale(scale / 200, scale / 200); //Scale image
+        canMat.postTranslate(offset.getX() + scale, offset.getY() + scale); //Add main offset
     }
 
 

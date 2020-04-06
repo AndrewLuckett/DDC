@@ -94,7 +94,6 @@ public class GameThread extends Thread {
 
 
             //Temporary forced slowdown
-
             try {
                 Thread.sleep(1);
             } catch (InterruptedException e) {
@@ -128,10 +127,10 @@ public class GameThread extends Thread {
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
                 db.add(new Drawable(R.drawable.tt_radar, rot, j, i, true)); //Tower
-                db.add(new Drawable(R.drawable.tt_aa, rot, j, i, false)); //Bug
-                db.add(new Drawable(R.drawable.tt_gauss, rot, j, i, false)); //Proj1
-                db.add(new Drawable(R.drawable.tt_basic, 180 + rot, j, i, false)); //Proj2
-                db.add(new Drawable(R.drawable.tt_basic, 360 - rot, j, i, false)); //Proj3
+                db.add(new Drawable(R.drawable.tt_aa, rot, j+0.5f, i+0.5f, false)); //Bug
+                db.add(new Drawable(R.drawable.tt_gauss, rot, j+0.5f, i+0.5f, false)); //Proj1
+                db.add(new Drawable(R.drawable.tt_basic, 180 + rot, j+0.5f, i+0.5f, false)); //Proj2
+                db.add(new Drawable(R.drawable.tt_basic, 360 - rot, j+0.5f, i+0.5f, false)); //Proj3
                 //Literal worst case
             }
         }
