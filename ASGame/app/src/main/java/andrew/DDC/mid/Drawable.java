@@ -1,4 +1,6 @@
-package andrew.DDC.back;
+package andrew.DDC.mid;
+
+import andrew.DDC.back.Vec2;
 
 public class Drawable {
     private int GId;
@@ -7,17 +9,24 @@ public class Drawable {
     private float Yoff;
     private boolean tower;
 
-    public Drawable(int GId, float rotation, float Xoff, float Yoff){
+    public Drawable(int GId, float rotation, float Xoff, float Yoff, boolean base){
         this.GId = GId;
         this.rotation = rotation;
         this.Xoff = Xoff;
         this.Yoff = Yoff;
-        this.tower = false;
+        this.tower = base;
     }
 
-    public Drawable(int GId, float rotation, float Xoff, float Yoff, boolean base){
-        this(GId,rotation,Xoff,Yoff);
-        this.tower = base;
+    public Drawable(int GId, float rotation, float Xoff, float Yoff){
+        this(GId,rotation,Xoff,Yoff,false);
+    }
+
+    public Drawable(int GId, float rotation, Vec2 pos, boolean base){
+        this(GId, rotation, pos.getX(), pos.getY(), base);
+    }
+
+    public Drawable(int GId, float rotation, Vec2 pos){
+        this(GId, rotation, pos.getX(), pos.getY(), false);
     }
 
     public int getGId() {

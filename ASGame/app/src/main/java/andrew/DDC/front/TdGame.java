@@ -11,8 +11,8 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import andrew.DDC.R;
-import andrew.DDC.back.GameThread;
-import andrew.DDC.back.MessageTypes;
+import andrew.DDC.mid.GameThread;
+import andrew.DDC.mid.MessageTypes;
 import andrew.DDC.back.towers.TowerTypes;
 
 public class TdGame extends AppCompatActivity {

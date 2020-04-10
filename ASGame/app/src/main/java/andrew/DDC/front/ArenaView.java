@@ -23,8 +23,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import andrew.DDC.R;
-import andrew.DDC.back.Drawable;
-import andrew.DDC.back.GameThread;
+import andrew.DDC.mid.Drawable;
+import andrew.DDC.mid.GameThread;
 import andrew.DDC.back.Vec2;
 
 public class ArenaView extends View {

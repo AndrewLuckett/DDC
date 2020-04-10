@@ -1,7 +1,7 @@
 package andrew.DDC.back.towers;
 
-public class Radar extends Base {
-    @Override
+public class Radar extends Tower {
+
     public void update() {
 
     }
