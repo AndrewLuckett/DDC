@@ -1,4 +1,4 @@
-package andrew.DDC.front;
+package andrew.DDC.game.front;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -23,11 +23,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import andrew.DDC.R;
-import andrew.DDC.mid.Drawable;
-import andrew.DDC.mid.GameThread;
-import andrew.DDC.back.Vec2;
+import andrew.DDC.game.back.Vec2;
+import andrew.DDC.core.Drawable;
+import andrew.DDC.core.GameThread;
+import andrew.DDC.core.GameViewInterface;
 
-public class ArenaView extends View {
+public class ArenaView extends View implements GameViewInterface {
 
     private Paint boundaryPaint = new Paint();  //Boundary
     private Paint backPaint = new Paint(); //Unpaint boundary
@@ -50,12 +51,6 @@ public class ArenaView extends View {
 
     public ArenaView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
-        setup(10, 10, null); //Just in case
-    }
-
-
-    public ArenaView(Context context) {
-        super(context);
         setup(10, 10, null); //Just in case
     }
 

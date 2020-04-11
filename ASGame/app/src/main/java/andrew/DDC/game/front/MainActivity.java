@@ -1,4 +1,4 @@
-package andrew.DDC.front;
+package andrew.DDC.game.front;
 
 import androidx.appcompat.app.AppCompatActivity;
 

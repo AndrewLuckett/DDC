@@ -11,7 +11,7 @@
         android:theme="@style/AppTheme">
 
         <activity
-            android:name=".front.TdGame"
+            android:name=".game.front.TdGame"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/title_activity_td_game" >
             <intent-filter>

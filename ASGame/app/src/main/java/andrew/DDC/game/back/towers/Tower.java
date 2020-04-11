@@ -1,9 +1,9 @@
-package andrew.DDC.back.towers;
+package andrew.DDC.game.back.towers;
 
-import andrew.DDC.mid.Drawable;
-import andrew.DDC.back.GameObjectInterface;
-import andrew.DDC.back.Vec2;
-import andrew.DDC.back.creeps.CreepTypes;
+import andrew.DDC.core.Drawable;
+import andrew.DDC.game.back.GameObjectInterface;
+import andrew.DDC.game.back.Vec2;
+import andrew.DDC.game.back.creeps.CreepTypes;
 
 public class Tower implements GameObjectInterface {
     TowerTypes type;

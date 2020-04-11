@@ -1,7 +1,7 @@
-package andrew.DDC.back.creeps;
+package andrew.DDC.game.back.creeps;
 
-import andrew.DDC.back.GameObjectInterface;
-import andrew.DDC.back.Vec2;
+import andrew.DDC.game.back.GameObjectInterface;
+import andrew.DDC.game.back.Vec2;
 
 public abstract class Creep implements GameObjectInterface {
     CreepTypes type;

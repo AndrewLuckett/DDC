@@ -1,6 +1,6 @@
-package andrew.DDC.mid;
+package andrew.DDC.core;
 
-import andrew.DDC.back.Vec2;
+import andrew.DDC.game.back.Vec2;
 
 public class Drawable {
     private int GId;

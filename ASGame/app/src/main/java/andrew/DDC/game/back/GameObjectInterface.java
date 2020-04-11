@@ -1,6 +1,6 @@
-package andrew.DDC.back;
+package andrew.DDC.game.back;
 
-import andrew.DDC.mid.Drawable;
+import andrew.DDC.core.Drawable;
 
 public interface GameObjectInterface {
     void update(float dtms);

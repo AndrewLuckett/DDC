@@ -8,9 +8,9 @@
     android:layout_height="match_parent"
     android:background="@color/main_back"
     android:orientation="vertical"
-    tools:context=".front.TdGame">
+    tools:context=".game.front.TdGame">
 
-    <andrew.DDC.front.ArenaView
+    <andrew.DDC.game.front.ArenaView
         android:id="@+id/ArenaView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

@@ -1,4 +1,4 @@
-package andrew.DDC.back.creeps;
+package andrew.DDC.game.back.creeps;
 
 public enum CreepTypes {
     Basic,

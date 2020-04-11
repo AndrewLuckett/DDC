@@ -1,4 +1,4 @@
-package andrew.DDC.front;
+package andrew.DDC.game.front;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
@@ -11,13 +11,14 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import andrew.DDC.R;
-import andrew.DDC.mid.GameThread;
-import andrew.DDC.mid.MessageTypes;
-import andrew.DDC.back.towers.TowerTypes;
+import andrew.DDC.core.GameThread;
+import andrew.DDC.core.GameViewInterface;
+import andrew.DDC.core.MessageTypes;
+import andrew.DDC.game.back.towers.TowerTypes;
 
 public class TdGame extends AppCompatActivity {
     TowerTypes selected;
-    ArenaView a;
+    GameViewInterface a;
 
     @SuppressLint("HandlerLeak")
     private final Handler mHandler = new Handler() {
@@ -50,7 +51,7 @@ public class TdGame extends AppCompatActivity {
         setContentView(R.layout.activity_td_game);
         setupButtons();
 
-        GameThread game = new GameThread(16, 16, mHandler);
+        GameThread game = new GameThread(16, 16,null, mHandler);
         game.start();
         a = findViewById(R.id.ArenaView);
         a.setup(16, 16, game);

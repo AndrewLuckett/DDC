@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="placeholder_name">%name%</string>
-    <string name="placeholder_desc">%Description%</string>
-    <string name="placeholder_flav">%funny comment%</string>
+    <string name="placeholder_name" translatable="false">%name%</string>
+    <string name="placeholder_desc" translatable="false">%Description%</string>
+    <string name="placeholder_flav" translatable="false">%funny comment%</string>
     <string name="placeholder_data">HP: %d \t\t Cost: %d</string>
 
     <string name="base_name">Blockade</string>

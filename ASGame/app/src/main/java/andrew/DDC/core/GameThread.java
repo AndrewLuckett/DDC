@@ -1,4 +1,4 @@
-package andrew.DDC.mid;
+package andrew.DDC.core;
 
 import android.graphics.Point;
 import android.os.Bundle;
@@ -6,11 +6,10 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 
+import androidx.core.util.Consumer;
+
 import java.util.ArrayList;
 import java.util.concurrent.ArrayBlockingQueue;
-
-import andrew.DDC.R;
-import andrew.DDC.back.towers.TowerTypes;
 
 
 public class GameThread extends Thread {
@@ -24,11 +23,6 @@ public class GameThread extends Thread {
     private volatile ArrayList<Drawable> db = new ArrayList<>();
     //Render array, warning shared. Not thread safe.
 
-    private long lastFrame = 0;
-    //Time of start of last frame
-
-    private long lastDraw = 0;
-
     private volatile boolean safeToDraw = false;
     //Is it safe to ask arenaView to draw again
 
@@ -36,10 +30,13 @@ public class GameThread extends Thread {
     private float fps;
     //Temp
 
+    private GameInterface theGame;
 
-    public GameThread(int width, int height, Handler mHandler) {
+
+    public GameThread(int width, int height,GameInterface theGame, Handler mHandler) {
         this.width = width;
         this.height = height;
+        this.theGame = theGame;
         this.mHandler = mHandler;
 
         //theGame = new ArenaController(width, height);
@@ -47,9 +44,10 @@ public class GameThread extends Thread {
 
     @Override
     public void run() {
-        lastFrame = System.nanoTime();
+        long lastFrame = System.nanoTime();
+        long lastDraw = 0;
 
-        while (true) { //while theGame.running()
+        while (theGame.isRunning()){
             //Handle timings
             long now = System.nanoTime();
             float dtms = (now - lastFrame) / 1000000f; //Whole last frame time
@@ -69,13 +67,8 @@ public class GameThread extends Thread {
                 }
             }
 
-
             //Do stuff
-            //theGame.update(dtms)
-            rot += dtms / 16f;
-            if (rot > 360) {
-                rot -= 360;
-            }
+            theGame.update(dtms);
 
             //Draw
             if (safeToDraw) { //Other ways to do it
@@ -102,19 +95,22 @@ public class GameThread extends Thread {
 
 
         }
+        sendDoneMessage();
+    }
+
+    private void sendDoneMessage() {
+        Message msg = mHandler.obtainMessage();
+        Bundle b = new Bundle();
+        b.putSerializable("mType", MessageTypes.finished);
+        msg.setData(b);
+        mHandler.sendMessage(msg);
     }
 
     private void handleInput(Point p) {
-        Bundle b = new Bundle();
-        b.putSerializable("mType", MessageTypes.Selection);
-        b.putSerializable("type", TowerTypes.Radar);
-        b.putInt("hp", 999);
-        // Above is placeholder
-
-        // Bundle b = theGame.handleInput(Point p)
-        // if(b == null){
-        // return;
-        // }
+        Bundle b = theGame.handleInput(p);
+        if(b == null){
+            return;
+        }
 
         Message msg = mHandler.obtainMessage();
         msg.setData(b);
@@ -124,23 +120,13 @@ public class GameThread extends Thread {
     private void createDrawable() {
         //rot += 0.75f;
         db = new ArrayList<>();
-        for (int i = 0; i < height; i++) {
-            for (int j = 0; j < width; j++) {
-                db.add(new Drawable(R.drawable.tt_radar, rot, j, i, true)); //Tower
-                db.add(new Drawable(R.drawable.tt_aa, rot, j+0.5f, i+0.5f, false)); //Bug
-                db.add(new Drawable(R.drawable.tt_gauss, rot, j+0.5f, i+0.5f, false)); //Proj1
-                db.add(new Drawable(R.drawable.tt_basic, 180 + rot, j+0.5f, i+0.5f, false)); //Proj2
-                db.add(new Drawable(R.drawable.tt_basic, 360 - rot, j+0.5f, i+0.5f, false)); //Proj3
-                //Literal worst case
+        theGame.forEachDrawable(new Consumer<Drawable>() {
+            @Override
+            public void accept(Drawable d) {
+                db.add(d);
             }
-        }
-        //db.add(new Drawable(R.drawable.tt_gauss,rot,1,1,true));
-        //db.add(new Drawable(R.drawable.pr_gauss,rot,1.5f,1.5f,false));
+        });
         //Remember towers use tl corner other ents use centre!
-        //Placeholder testing
-
-        //db = theGame.getDrawables()
-
 
         //Ask arenaView to update
         //DO NOT MODIFY RENDER ARRAY UNTIL IT IS DONE
@@ -165,10 +151,12 @@ public class GameThread extends Thread {
     }
 
     public int getScore() {
+        //return theGame.getScore();
         return (int) fps;
     }
 
     public int getCoins() {
+        //return theGame.getCoins();
         return db.size();
     }
 }
