@@ -13,8 +13,6 @@ import java.util.concurrent.ArrayBlockingQueue;
 
 
 public class GameThread extends Thread {
-    private final int width; //Arena width in tiles
-    private final int height; //Arena height in tiles
     private Handler mHandler; //Message bus
 
     private ArrayBlockingQueue<Point> inputQueue = new ArrayBlockingQueue<>(32);
@@ -26,20 +24,15 @@ public class GameThread extends Thread {
     private volatile boolean safeToDraw = false;
     //Is it safe to ask arenaView to draw again
 
-    private float rot = 0;
     private float fps;
     //Temp
 
     private GameInterface theGame;
 
 
-    public GameThread(int width, int height,GameInterface theGame, Handler mHandler) {
-        this.width = width;
-        this.height = height;
+    public GameThread(GameInterface theGame, Handler mHandler) {
         this.theGame = theGame;
         this.mHandler = mHandler;
-
-        //theGame = new ArenaController(width, height);
     }
 
     @Override

@@ -4,6 +4,11 @@
     <string name="app_name" translatable="false">TdGame</string>
     <string name="hello_world">Hello world!</string>
 
+    <string name="goButton">Go!</string>
+    <string name="hardmode">Hard Mode</string>
+    <string name="random">Random generated map</string>
+
+
     <string name="title_activity_td_game" translatable="false">TdGame</string>
     <string name="dummy_button" translatable="false">Dummy Button</string>
     <string name="dummy_content" translatable="false">DUMMY\nCONTENT</string>

@@ -11,14 +11,17 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import andrew.DDC.R;
+import andrew.DDC.core.GameInterface;
 import andrew.DDC.core.GameThread;
 import andrew.DDC.core.GameViewInterface;
 import andrew.DDC.core.MessageTypes;
+import andrew.DDC.game.back.TdGame;
 import andrew.DDC.game.back.towers.TowerTypes;
 
-public class TdGame extends AppCompatActivity {
+public class TdGameActivity extends AppCompatActivity {
     TowerTypes selected;
     GameViewInterface a;
+    GameInterface g;
 
     @SuppressLint("HandlerLeak")
     private final Handler mHandler = new Handler() {
@@ -31,9 +34,10 @@ public class TdGame extends AppCompatActivity {
                 default:
                     Log.v("Warning","Unhandled message");
                     break;
-                case Selection:
+                case selection:
                     TowerTypes type = (TowerTypes) m.getData().get("type");
                     int hp = m.getData().getInt("hp");
+                    if(type == null) return;
                     setInfoText(type, hp);
                     break;
                 case update:
@@ -51,10 +55,11 @@ public class TdGame extends AppCompatActivity {
         setContentView(R.layout.activity_td_game);
         setupButtons();
 
-        GameThread game = new GameThread(16, 16,null, mHandler);
+        g = new TdGame(16);
+        GameThread game = new GameThread(g, mHandler);
         game.start();
         a = findViewById(R.id.ArenaView);
-        a.setup(16, 16, game);
+        a.setup(30, game);
 
     }
 

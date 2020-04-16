@@ -1,7 +1,7 @@
 package andrew.DDC.core;
 
 public enum MessageTypes {
-    Selection,
+    selection,
     finished,
     update
 }

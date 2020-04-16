@@ -36,7 +36,7 @@ public class ArenaView extends View implements GameViewInterface {
     private Paint tpr = new Paint(); //Text paint (right weighted)
 
     float scale = 1f;
-    int arenaWidth = 10, arenaHeight = 10;
+    int arenaSize = 10;
     Vec2 offset = new Vec2(0, 0);
     Matrix canMat = new Matrix();
     Matrix dMat = new Matrix();
@@ -51,13 +51,12 @@ public class ArenaView extends View implements GameViewInterface {
 
     public ArenaView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
-        setup(10, 10, null); //Just in case
+        setup(10, null); //Just in case
     }
 
 
-    public void setup(int arenaWidth, int arenaHeight, GameThread game) {
-        this.arenaWidth = arenaWidth;
-        this.arenaHeight = arenaHeight;
+    public void setup(int arenaSize, GameThread game) {
+        this.arenaSize = arenaSize;
         this.game = game;
 
         boundaryPaint.setAntiAlias(true);
@@ -122,7 +121,7 @@ public class ArenaView extends View implements GameViewInterface {
         float y = offset.getY() + scale / 2;
         canvas.drawRect(x, y, getWidth() - x, getHeight() - y, boundaryPaint);
 
-        y = (arenaHeight / 2f) * scale + offset.getY() + scale;
+        y = (arenaSize / 2f) * scale + offset.getY() + scale;
         canvas.drawRect(x, y - 1.5f * scale, getWidth() - x, y + 1.5f * scale, backPaint);
 
         y = offset.getY() + scale / 2f - tp.ascent() / 2f;
@@ -148,11 +147,11 @@ public class ArenaView extends View implements GameViewInterface {
 
         if (w > h) {
             offset = new Vec2((ma - mi) / 2, 0);
-            scale = mi / (arenaHeight + 2);
         } else {
             offset = new Vec2(0, (ma - mi) / 2);
-            scale = mi / (arenaWidth + 2);
         }
+        scale = mi / (arenaSize + 2);
+
         boundaryPaint.setStrokeWidth(scale);
         backPaint.setStrokeWidth(scale);
         tp.setTextSize(scale);
