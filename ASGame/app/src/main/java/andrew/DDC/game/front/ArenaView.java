@@ -187,7 +187,10 @@ public class ArenaView extends View implements GameViewInterface {
 
 
     public void handleClick(float x, float y) {
-        //TODO: Calc what tile was clicked.
-        game.addClickEvent(new Point(0, 0));
+        x -= offset.getX() + scale;
+        y -= offset.getY() + scale;
+        Point loc = new Point( (int) Math.floor(x/scale), (int) Math.floor(y/scale));
+        Log.v("info","Tile: "+ loc.toString());
+        game.addClickEvent(loc);
     }
 }

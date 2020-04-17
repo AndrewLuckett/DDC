@@ -11,7 +11,6 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import andrew.DDC.R;
-import andrew.DDC.core.GameInterface;
 import andrew.DDC.core.GameThread;
 import andrew.DDC.core.GameViewInterface;
 import andrew.DDC.core.MessageTypes;
@@ -19,9 +18,8 @@ import andrew.DDC.game.back.TdGame;
 import andrew.DDC.game.back.towers.TowerTypes;
 
 public class TdGameActivity extends AppCompatActivity {
-    TowerTypes selected;
     GameViewInterface a;
-    GameInterface g;
+    TdGame g;
 
     @SuppressLint("HandlerLeak")
     private final Handler mHandler = new Handler() {
@@ -55,11 +53,14 @@ public class TdGameActivity extends AppCompatActivity {
         setContentView(R.layout.activity_td_game);
         setupButtons();
 
-        g = new TdGame(16);
+        Bundle b = getIntent().getExtras();
+        int size = b.getInt("size");
+
+        g = new TdGame(size, b.getBoolean("hard"));
         GameThread game = new GameThread(g, mHandler);
         game.start();
         a = findViewById(R.id.ArenaView);
-        a.setup(30, game);
+        a.setup(size, game);
 
     }
 
@@ -106,7 +107,7 @@ public class TdGameActivity extends AppCompatActivity {
         TextView tv_data = findViewById(R.id.tv_data);
         TextView tv_humour = findViewById(R.id.tv_humour);
 
-        selected = tt;
+        g.setSelected(tt);
 
         switch (tt) {
             default:

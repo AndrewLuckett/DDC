@@ -23,6 +23,8 @@ public class GameThread extends Thread {
 
     private volatile boolean safeToDraw = false;
     //Is it safe to ask arenaView to draw again
+    //If not respected flickering will occur at best
+    //Concurrent modification errors at worst
 
     private float fps;
     //Temp
@@ -104,6 +106,7 @@ public class GameThread extends Thread {
         if(b == null){
             return;
         }
+        b.putSerializable("mType", MessageTypes.selection);
 
         Message msg = mHandler.obtainMessage();
         msg.setData(b);

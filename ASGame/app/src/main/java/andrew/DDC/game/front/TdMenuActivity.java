@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.Switch;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -43,6 +44,9 @@ public class TdMenuActivity extends AppCompatActivity {
         findViewById(R.id.bt_go).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String str = ((EditText) findViewById(R.id.et_size)).getText().toString();
+                size = Integer.parseInt(str);
+
                 i.putExtra("size",size);
                 i.putExtra("hardmode",hardmode);
                 i.putExtra("random",random);
