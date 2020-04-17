@@ -1,22 +1,24 @@
 package andrew.DDC.game.back.towers;
 
+import java.util.HashSet;
+
 import andrew.DDC.game.back.ArenaInterface;
 import andrew.DDC.game.back.Vec2;
 import andrew.DDC.game.back.creeps.CreepTypes;
 
 public class TowerBuilder {
-    ArenaInterface container;
-    TowerTypes type;
-    int hp = 10; //Health
-    Vec2 pos = new Vec2(); //Location
+    private ArenaInterface container;
+    private TowerTypes type;
+    private int hp = 10; //Health
+    private Vec2 pos = new Vec2(); //Location
 
-    CreepTypes[] targets = {CreepTypes.Basic}; //Things this tower can target
-    float range = 1;
-    int dmg = 1;
-    int shotClDn = 500; //ShotCooldown
+    private HashSet<CreepTypes> targets = new HashSet<>(); //Things this tower can target
+    private float range = 1.5f;
+    private int dmg = 1;
+    private int shotClDn = 500; //ShotCooldown
 
-    float angle = 0; //Facing direction
-    float rot = 0.36f; //Rate of turn, 1 rps
+    private float angle = 0; //Facing direction
+    private float rot = 0.36f; //Rate of turn, 1 rps
 
     public TowerBuilder(ArenaInterface container, TowerTypes type){
         this.container = container;
@@ -37,7 +39,7 @@ public class TowerBuilder {
         return this;
     }
 
-    public TowerBuilder withTargets(CreepTypes[] targets){
+    public TowerBuilder withTargets(HashSet<CreepTypes> targets){
         this.targets = targets;
         return this;
     }

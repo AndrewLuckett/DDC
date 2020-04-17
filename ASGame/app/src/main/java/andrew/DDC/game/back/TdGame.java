@@ -7,6 +7,7 @@ import android.util.Log;
 import androidx.core.util.Consumer;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 
 import andrew.DDC.core.Drawable;
 import andrew.DDC.core.GameInterface;
@@ -57,16 +58,18 @@ public class TdGame implements GameInterface, ArenaInterface {
 
         for(Creep c:creeps){
             if(c.isExpired()){
+                Log.v("info","Creep killed: "+c.wasMurdered());
                 if(c.wasMurdered()){
                     score += c.getBounty();
+                    coins += c.getBounty();
                 } else{
                     coins -= c.getPenalty();
                 }
             }
         }
 
-        updateAll(dtms, towers);
         updateAll(dtms, creeps);
+        updateAll(dtms, towers);
         updateAll(dtms, proj);
 
     }
@@ -97,8 +100,11 @@ public class TdGame implements GameInterface, ArenaInterface {
         //If no tower there, add one
         if(coins >= selected.getCost()) {
             coins -= selected.getCost();
+            HashSet<CreepTypes> targets = new HashSet<CreepTypes>();
+            targets.add(CreepTypes.Basic);
             towers.add(new TowerBuilder(this, selected)
                     .atPos(pos)
+                    .withTargets(targets)
                     .build()
             );
         }
