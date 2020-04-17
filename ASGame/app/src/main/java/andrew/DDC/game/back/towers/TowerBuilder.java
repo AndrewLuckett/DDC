@@ -1,9 +1,11 @@
 package andrew.DDC.game.back.towers;
 
+import andrew.DDC.game.back.ArenaInterface;
 import andrew.DDC.game.back.Vec2;
 import andrew.DDC.game.back.creeps.CreepTypes;
 
 public class TowerBuilder {
+    ArenaInterface container;
     TowerTypes type;
     int hp = 10; //Health
     Vec2 pos = new Vec2(); //Location
@@ -16,12 +18,13 @@ public class TowerBuilder {
     float angle = 0; //Facing direction
     float rot = 0.36f; //Rate of turn, 1 rps
 
-    public TowerBuilder(TowerTypes type){
+    public TowerBuilder(ArenaInterface container, TowerTypes type){
+        this.container = container;
         this.type = type;
     }
 
     public Tower build(){
-        return new Tower(type, pos, hp, targets, range, dmg, shotClDn, angle, rot);
+        return new Tower(container, type, pos, hp, targets, range, dmg, shotClDn, angle, rot);
     }
 
     public TowerBuilder withHp(int hp){

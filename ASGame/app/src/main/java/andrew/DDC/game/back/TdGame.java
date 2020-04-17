@@ -15,7 +15,7 @@ import andrew.DDC.game.back.towers.Tower;
 import andrew.DDC.game.back.towers.TowerBuilder;
 import andrew.DDC.game.back.towers.TowerTypes;
 
-public class TdGame implements GameInterface {
+public class TdGame implements GameInterface, ArenaInterface {
     private final int size;
     private ArrayList<Tower> towers = new ArrayList<>();
     private ArrayList<Creep> creeps = new ArrayList<>();
@@ -25,8 +25,8 @@ public class TdGame implements GameInterface {
     private int coins;
     private boolean running = true;
 
-    private long nextWaveTime;
-    private long nextWavein;
+    private long nextWaveTime; //ms
+    private long nextWavein; //ms
 
     private TowerTypes selected = TowerTypes.Base;
 
@@ -40,15 +40,42 @@ public class TdGame implements GameInterface {
 
     @Override
     public void update(float dtms) {
+        if(coins < 0){ //Game over, man. Game over!
+            running = false;
+            return;
+        }
+
+        nextWavein -= dtms;
+        if(nextWavein <= 0){
+            nextWavein = nextWaveTime;
+
+            //Add wave
+        }
+
+        for(Creep c:creeps){
+            if(c.isExpired()){
+                if(c.wasMurdered()){
+                    score += c.getBounty();
+                } else{
+                    coins -= c.getPenalty();
+                }
+            }
+        }
+
         updateAll(dtms, towers);
         updateAll(dtms, creeps);
         updateAll(dtms, proj);
 
     }
 
-    public void updateAll(float dtms, ArrayList<? extends GameObjectInterface> goItem) {
+    private void updateAll(float dtms, ArrayList<? extends GameObjectInterface> goItem) {
+        ArrayList<GameObjectInterface> delt = new ArrayList<>();
         for (GameObjectInterface i : goItem) {
             i.update(dtms);
+            if(i.isExpired()) delt.add(i);
+        }
+        for (GameObjectInterface i : delt) {
+            goItem.remove(i);
         }
     }
 
@@ -65,11 +92,13 @@ public class TdGame implements GameInterface {
         }
 
         //If no tower there, add one
-        towers.add(new TowerBuilder(selected)
-                .atPos(pos)
-                .build()
-        );
-        Log.v("Info", "Tower made at " + p.toString());
+        if(coins >= selected.getCost()) {
+            coins -= selected.getCost();
+            towers.add(new TowerBuilder(this, selected)
+                    .atPos(pos)
+                    .build()
+            );
+        }
         return null;
     }
 
@@ -103,5 +132,15 @@ public class TdGame implements GameInterface {
 
     public void setSelected(TowerTypes tt) {
         selected = tt;
+    }
+
+    @Override
+    public ArrayList<Creep> getTargets() {
+        return creeps;
+    }
+
+    @Override
+    public ArrayList<? extends GameObjectInterface> getObstacles() {
+        return towers;
     }
 }

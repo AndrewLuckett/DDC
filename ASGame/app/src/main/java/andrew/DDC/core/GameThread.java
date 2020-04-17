@@ -147,12 +147,12 @@ public class GameThread extends Thread {
     }
 
     public int getScore() {
-        //return theGame.getScore();
-        return (int) fps;
+        return theGame.getScore();
+        //return (int) fps;
     }
 
     public int getCoins() {
-        //return theGame.getCoins();
-        return db.size();
+        return theGame.getCoins();
+        //return db.size();
     }
 }

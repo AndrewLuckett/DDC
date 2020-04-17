@@ -6,4 +6,5 @@ public interface GameObjectInterface {
     void update(float dtms);
     Drawable getDrawable();
     boolean isExpired();
+    Vec2 getPos();
 }

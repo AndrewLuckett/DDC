@@ -9,4 +9,18 @@ public abstract class Creep implements GameObjectInterface {
     Vec2 pos;
     int dmg;
     float velo;
+    int bounty;
+    int penalty;
+
+    public boolean wasMurdered(){
+        return hp <= 0;
+    }
+
+    public int getBounty(){
+        return bounty;
+    }
+
+    public int getPenalty(){
+        return penalty;
+    }
 }
