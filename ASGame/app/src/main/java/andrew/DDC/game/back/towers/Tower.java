@@ -53,6 +53,11 @@ public class Tower implements GameObjectInterface {
     }
 
     @Override
+    public void shot(int dmg){
+        hp -= dmg;
+    }
+
+    @Override
     public Drawable getDrawable() {
         return new Drawable(type.getGId(), angle, pos, true);
     }

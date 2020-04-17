@@ -7,4 +7,5 @@ public interface GameObjectInterface {
     Drawable getDrawable();
     boolean isExpired();
     Vec2 getPos();
+    void shot(int dmg);
 }

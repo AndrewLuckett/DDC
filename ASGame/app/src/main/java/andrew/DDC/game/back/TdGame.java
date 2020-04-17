@@ -11,6 +11,8 @@ import java.util.ArrayList;
 import andrew.DDC.core.Drawable;
 import andrew.DDC.core.GameInterface;
 import andrew.DDC.game.back.creeps.Creep;
+import andrew.DDC.game.back.creeps.CreepFactory;
+import andrew.DDC.game.back.creeps.CreepTypes;
 import andrew.DDC.game.back.towers.Tower;
 import andrew.DDC.game.back.towers.TowerBuilder;
 import andrew.DDC.game.back.towers.TowerTypes;
@@ -33,7 +35,7 @@ public class TdGame implements GameInterface, ArenaInterface {
 
     public TdGame(int size, boolean hard) {
         this.size = size;
-        nextWaveTime = hard ? 2000 : 3000;
+        nextWaveTime = hard ? 3000 : 4000;
         coins = hard ? 400 : 600;
         nextWavein = nextWaveTime * 2;
     }
@@ -49,6 +51,7 @@ public class TdGame implements GameInterface, ArenaInterface {
         if(nextWavein <= 0){
             nextWavein = nextWaveTime;
 
+            creeps.add(CreepFactory.getCreep(this, CreepTypes.Basic, new Vec2(-1,size/2f),1f));
             //Add wave
         }
 
@@ -71,8 +74,8 @@ public class TdGame implements GameInterface, ArenaInterface {
     private void updateAll(float dtms, ArrayList<? extends GameObjectInterface> goItem) {
         ArrayList<GameObjectInterface> delt = new ArrayList<>();
         for (GameObjectInterface i : goItem) {
-            i.update(dtms);
             if(i.isExpired()) delt.add(i);
+            i.update(dtms);
         }
         for (GameObjectInterface i : delt) {
             goItem.remove(i);
@@ -132,6 +135,11 @@ public class TdGame implements GameInterface, ArenaInterface {
 
     public void setSelected(TowerTypes tt) {
         selected = tt;
+    }
+
+    @Override
+    public int getSize() {
+        return size;
     }
 
     @Override
