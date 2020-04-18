@@ -4,7 +4,10 @@
     <string name="app_name" translatable="false">TdGame</string>
     <string name="hello_world">Hello world!</string>
 
+    <string name="menu_name">Tower Defense Game - Andrew Luckett 2020</string>
     <string name="goButton">Go!</string>
+    <string name="size">Arena Size</string>
+    <string name="default_size">16</string>
     <string name="hardmode">Hard Mode</string>
     <string name="random">Random generated map</string>
 

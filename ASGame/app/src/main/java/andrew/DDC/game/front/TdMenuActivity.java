@@ -47,9 +47,13 @@ public class TdMenuActivity extends AppCompatActivity {
                 String str = ((EditText) findViewById(R.id.et_size)).getText().toString();
                 size = Integer.parseInt(str);
 
-                i.putExtra("size",size);
-                i.putExtra("hardmode",hardmode);
-                i.putExtra("random",random);
+                size = Math.max(size, 6);
+                size = Math.min(size, 100);
+                if (size % 2 == 1) size++;
+
+                i.putExtra("size", size);
+                i.putExtra("hardmode", hardmode);
+                i.putExtra("random", random);
                 startActivity(i);
                 finish();
             }
