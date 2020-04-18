@@ -62,6 +62,7 @@ public class TdGameActivity extends AppCompatActivity {
         a = findViewById(R.id.ArenaView);
         a.setup(size, game);
 
+        setInfoText(TowerTypes.Base); //Auto pre select
     }
 
     public void setupButtons() {
