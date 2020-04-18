@@ -8,6 +8,7 @@ import androidx.core.util.Consumer;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Random;
 
 import andrew.DDC.core.Drawable;
 import andrew.DDC.core.GameInterface;
@@ -34,38 +35,60 @@ public class TdGame implements GameInterface, ArenaInterface {
     private TowerTypes selected = TowerTypes.Base;
 
 
-    public TdGame(int size, boolean hard) {
+    public TdGame(int size, boolean hard, boolean random) {
         this.size = size;
         nextWaveTime = hard ? 3000 : 4000;
         coins = hard ? 400 : 600;
         nextWavein = nextWaveTime * 2;
+        setup(random);
+    }
+
+    private void setup(boolean random) {
+        TowerBuilder tb = new TowerBuilder(this, TowerTypes.Base);
+        tb.withHp(TowerTypes.Base.getHp() * 2);
+
+        if (random) {
+            Random r = new Random();
+            for (int x = 0; x < size - 1; x++) {
+                for (int y = 0; y < size; y++) {
+                    float weight = 2 * x / (float) size;
+                    weight = (float) Math.min(0.3, weight);
+                    if (r.nextFloat() < weight) {
+                        tb.atPos(new Vec2(x, y));
+                        towers.add(tb.build());
+                    }
+                }
+            }
+        } else {
+            for (int x = 0; x < size - 1; x++) {
+                if (x % 4 == 1) {
+                    for (int y = 0; y < size - 4; y++) {
+                        tb.atPos(new Vec2(x, y));
+                        towers.add(tb.build());
+                    }
+                } else if (x % 2 == 1) {
+                    for (int y = 4; y < size; y++) {
+                        tb.atPos(new Vec2(x, y));
+                        towers.add(tb.build());
+                    }
+                }
+            }
+        }
     }
 
     @Override
     public void update(float dtms) {
-        if(coins < 0){ //Game over, man. Game over!
+        if (coins < 0) { //Game over, man. Game over!
             running = false;
             return;
         }
 
         nextWavein -= dtms;
-        if(nextWavein <= 0){
+        if (nextWavein <= 0) {
             nextWavein = nextWaveTime;
 
-            creeps.add(CreepFactory.getCreep(this, CreepTypes.Basic, new Vec2(-1,size/2f),1f));
-            //Add wave
-        }
-
-        for(Creep c:creeps){
-            if(c.isExpired()){
-                Log.v("info","Creep killed: "+c.wasMurdered());
-                if(c.wasMurdered()){
-                    score += c.getBounty();
-                    coins += c.getBounty();
-                } else{
-                    coins -= c.getPenalty();
-                }
-            }
+            creeps.add(CreepFactory.getCreep(this, CreepTypes.Basic, new Vec2(-1, size / 2f), 1f));
+            //TODO Add wave
         }
 
         updateAll(dtms, creeps);
@@ -77,7 +100,7 @@ public class TdGame implements GameInterface, ArenaInterface {
     private void updateAll(float dtms, ArrayList<? extends GameObjectInterface> goItem) {
         ArrayList<GameObjectInterface> delt = new ArrayList<>();
         for (GameObjectInterface i : goItem) {
-            if(i.isExpired()) delt.add(i);
+            if (i.isExpired()) delt.add(i);
             i.update(dtms);
         }
         for (GameObjectInterface i : delt) {
@@ -97,16 +120,16 @@ public class TdGame implements GameInterface, ArenaInterface {
             }
         }
 
-        if(p.x >= size || p.y >= size) return null;
-        if(p.x < 0 || p.y < 0) return null;
+        if (p.x >= size || p.y >= size) return null;
+        if (p.x < 0 || p.y < 0) return null;
 
         //If no tower there, add one
-        if(coins >= selected.getCost()) {
+        if (coins >= selected.getCost()) {
             coins -= selected.getCost();
 
             HashSet<CreepTypes> targets = new HashSet<CreepTypes>();
             TowerBuilder tb = new TowerBuilder(this, selected);
-            switch (selected){
+            switch (selected) {
                 case Base:
                 case Radar:
                     break;
@@ -121,7 +144,8 @@ public class TdGame implements GameInterface, ArenaInterface {
                     targets.add(CreepTypes.Flying);
                     break;
             }
-            switch (selected){
+
+            switch (selected) { //TODO Range dmg shtcldn rot
                 case Base:
                     break;
                 case Basic:
@@ -137,7 +161,7 @@ public class TdGame implements GameInterface, ArenaInterface {
                 case Aa:
                     break;
             }
-            //TODO Range dmg shtcldn rot
+
             tb.atPos(pos);
             tb.withTargets(targets);
             towers.add(tb.build());
@@ -179,8 +203,18 @@ public class TdGame implements GameInterface, ArenaInterface {
     }
 
     @Override
-    public void addProjectile(GameObjectInterface proj){
+    public void addProjectile(GameObjectInterface proj) {
         this.proj.add(proj);
+    }
+
+    @Override
+    public void addCoins(int delta) {
+        coins += delta;
+    }
+
+    @Override
+    public void addScore(int delta) {
+        score += delta;
     }
 
     @Override

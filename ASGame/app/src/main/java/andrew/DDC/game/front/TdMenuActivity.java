@@ -47,8 +47,8 @@ public class TdMenuActivity extends AppCompatActivity {
                 String str = ((EditText) findViewById(R.id.et_size)).getText().toString();
                 size = Integer.parseInt(str);
 
-                size = Math.max(size, 6);
-                size = Math.min(size, 100);
+                size = Math.max(size, 10);
+                size = Math.min(size, 60);
                 if (size % 2 == 1) size++;
 
                 i.putExtra("size", size);

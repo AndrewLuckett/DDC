@@ -56,7 +56,7 @@ public class TdGameActivity extends AppCompatActivity {
         Bundle b = getIntent().getExtras();
         int size = b.getInt("size");
 
-        g = new TdGame(size, b.getBoolean("hardmode"));
+        g = new TdGame(size, b.getBoolean("hardmode"), b.getBoolean("random"));
         GameThread game = new GameThread(g, mHandler);
         game.start();
         a = findViewById(R.id.ArenaView);

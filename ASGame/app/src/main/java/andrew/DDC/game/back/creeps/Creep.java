@@ -19,23 +19,20 @@ public abstract class Creep implements GameObjectInterface {
     }
 
     public boolean isExpired() {
-        return pos.getX() > container.getSize() + 1 || pos.getY() > container.getSize() + 1 || hp <= 0;
+        if(hp <= 0){
+            container.addCoins(bounty);
+            container.addScore(bounty);
+            return true;
+        }
+        if(pos.getX() > container.getSize() + 1 || pos.getY() > container.getSize() + 1){
+            container.addCoins(-penalty);
+            return true;
+        }
+        return false;
     }
 
     public Vec2 getPos() {
         return pos;
-    }
-
-    public boolean wasMurdered(){
-        return hp <= 0;
-    }
-
-    public int getBounty(){
-        return bounty;
-    }
-
-    public int getPenalty(){
-        return penalty;
     }
 
     public CreepTypes getType(){

@@ -11,4 +11,6 @@ public interface ArenaInterface {
     ArrayList<? extends GameObjectInterface> getObstacles();
     void setSelected(TowerTypes tt);
     void addProjectile(GameObjectInterface proj);
+    void addCoins(int delta);
+    void addScore(int delta);
 }

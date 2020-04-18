@@ -23,7 +23,7 @@ public class Tower implements GameObjectInterface {
     private float range;
     private int dmg;
     private int shotClDn; //ShotCooldown
-    private int NeShTi; //Next shot time
+    private int NeShTi = 0; //Next shot time
 
     private float angle; //Facing direction, rads
     private float rot; //Rate of turn, rads per second
@@ -67,12 +67,15 @@ public class Tower implements GameObjectInterface {
             }
         }
 
-        //Temp
-        if(closest != null && closestDist < range) {
-            closest.shot(dmg);
-        }
+        NeShTi -= dtms;
+        if(closest != null){
+            //TODO aim at closest and shoot if available
 
-        //TODO aim at closest and shoot if available
+            if(closestDist < range && NeShTi <= 0) { // && within fov
+                NeShTi = shotClDn;
+                closest.shot(dmg);
+            }
+        }
     }
 
     private void turn(boolean direction, float dtms) {
