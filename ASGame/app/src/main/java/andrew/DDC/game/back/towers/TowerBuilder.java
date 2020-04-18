@@ -18,11 +18,12 @@ public class TowerBuilder {
     private int shotClDn = 500; //ShotCooldown
 
     private float angle = 0; //Facing direction
-    private float rot = 0.36f; //Rate of turn, 1 rps
+    private float rot = 3.141f; //Rate of turn, 0.25 rps
 
     public TowerBuilder(ArenaInterface container, TowerTypes type){
         this.container = container;
         this.type = type;
+        this.hp = type.getHp();
     }
 
     public Tower build(){

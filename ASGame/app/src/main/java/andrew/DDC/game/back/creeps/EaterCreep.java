@@ -26,4 +26,9 @@ public class EaterCreep extends Creep {
     public Drawable getDrawable() {
         return new Drawable(R.drawable.cr_basic, 90, pos);
     }
+
+    @Override
+    public float getAngle() {
+        return 0;
+    }
 }

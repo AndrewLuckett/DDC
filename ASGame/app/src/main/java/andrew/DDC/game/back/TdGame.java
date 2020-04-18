@@ -97,16 +97,50 @@ public class TdGame implements GameInterface, ArenaInterface {
             }
         }
 
+        if(p.x >= size || p.y >= size) return null;
+        if(p.x < 0 || p.y < 0) return null;
+
         //If no tower there, add one
         if(coins >= selected.getCost()) {
             coins -= selected.getCost();
+
             HashSet<CreepTypes> targets = new HashSet<CreepTypes>();
-            targets.add(CreepTypes.Basic);
-            towers.add(new TowerBuilder(this, selected)
-                    .atPos(pos)
-                    .withTargets(targets)
-                    .build()
-            );
+            TowerBuilder tb = new TowerBuilder(this, selected);
+            switch (selected){
+                case Base:
+                case Radar:
+                    break;
+                case Basic:
+                case Gauss:
+                    targets.add(CreepTypes.Basic);
+                    targets.add(CreepTypes.Eater);
+                    targets.add(CreepTypes.Fast);
+                    targets.add(CreepTypes.Strong);
+                    break;
+                case Aa:
+                    targets.add(CreepTypes.Flying);
+                    break;
+            }
+            switch (selected){
+                case Base:
+                    break;
+                case Basic:
+                    tb.withRange(2);
+                    break;
+                case Gauss:
+                    tb.withRange(2);
+                    tb.withDmg(2);
+                    break;
+                case Radar:
+
+                    break;
+                case Aa:
+                    break;
+            }
+            //TODO Range dmg shtcldn rot
+            tb.atPos(pos);
+            tb.withTargets(targets);
+            towers.add(tb.build());
         }
         return null;
     }
@@ -139,8 +173,14 @@ public class TdGame implements GameInterface, ArenaInterface {
         return running;
     }
 
+    @Override
     public void setSelected(TowerTypes tt) {
         selected = tt;
+    }
+
+    @Override
+    public void addProjectile(GameObjectInterface proj){
+        this.proj.add(proj);
     }
 
     @Override

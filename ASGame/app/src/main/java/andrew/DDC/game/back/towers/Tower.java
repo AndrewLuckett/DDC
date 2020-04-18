@@ -25,8 +25,10 @@ public class Tower implements GameObjectInterface {
     private int shotClDn; //ShotCooldown
     private int NeShTi; //Next shot time
 
-    private float angle; //Facing direction
-    private float rot; //Rate of turn
+    private float angle; //Facing direction, rads
+    private float rot; //Rate of turn, rads per second
+
+    private final float TODEGREES = (float) (180/Math.PI);
 
     public Tower(ArenaInterface container, TowerTypes type, Vec2 pos, int hp, HashSet<CreepTypes> targets, float range, int dmg, int shotClDn, float angle, float rot){
         this.container = container;
@@ -48,6 +50,11 @@ public class Tower implements GameObjectInterface {
             return;
         }
 
+        if(targets.isEmpty()){
+            turn(true, dtms);
+            return;
+        }
+
         Vec2 centre = new Vec2(pos.getX() + 0.5f, pos.getY() + 0.5f);
         ArrayList<Creep> creeps = container.getTargets();
         float closestDist = Float.POSITIVE_INFINITY;
@@ -66,9 +73,17 @@ public class Tower implements GameObjectInterface {
         }
 
         //TODO aim at closest and shoot if available
-        angle += rot * dtms;
-        if(angle > 360){
-            angle -= 360;
+    }
+
+    private void turn(boolean direction, float dtms) {
+        int dir = direction ? 1 : -1;
+        angle += dir * rot * dtms/1000f;
+
+        while (angle > Math.PI) {
+            angle -= 2 * Math.PI;
+        }
+        while (angle < -Math.PI) {
+            angle += 2 * Math.PI;
         }
     }
 
@@ -79,7 +94,7 @@ public class Tower implements GameObjectInterface {
 
     @Override
     public Drawable getDrawable() {
-        return new Drawable(type.getGId(), angle, pos, true);
+        return new Drawable(type.getGId(), angle * TODEGREES, pos, true);
     }
 
     @Override
@@ -90,6 +105,11 @@ public class Tower implements GameObjectInterface {
     @Override
     public Vec2 getPos(){
         return pos;
+    }
+
+    @Override
+    public float getAngle() {
+        return angle;
     }
 
     public TowerTypes getType() {
