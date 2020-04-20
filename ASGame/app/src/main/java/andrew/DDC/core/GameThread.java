@@ -76,8 +76,8 @@ public class GameThread extends Thread {
 
                 fps = 1000f / dtfd;
 
-                //Log.v("Fps", "fps = " + 1000f / dtfd);
-                //Log.v("Fps", "tps = " + 1000f / dtms);
+                Log.v("Fps", "fps = " + 1000f / dtfd);
+                Log.v("Fps", "tps = " + 1000f / dtms);
             }
 
 

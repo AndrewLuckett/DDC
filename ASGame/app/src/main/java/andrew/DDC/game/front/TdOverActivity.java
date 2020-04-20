@@ -22,7 +22,7 @@ public class TdOverActivity extends AppCompatActivity {
         t.setText(String.format(getString(R.string.over),b.getInt("score"),b.getInt("wave")));
 
 
-        findViewById(R.id.bt_go).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.okback).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(TdOverActivity.this, TdMenuActivity.class);
