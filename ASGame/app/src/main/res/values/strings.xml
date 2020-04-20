@@ -12,6 +12,10 @@
     <string name="random">Random generated map</string>
 
 
+    <string name="ok">Ok</string>
+    <string name="over">Game over you scored: %d\n
+    And made it to wave: %d</string>
+
     <string name="title_activity_td_game" translatable="false">TdGame</string>
     <string name="dummy_button" translatable="false">Dummy Button</string>
     <string name="dummy_content" translatable="false">DUMMY\nCONTENT</string>

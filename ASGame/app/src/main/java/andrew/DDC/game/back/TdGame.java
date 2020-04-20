@@ -208,6 +208,11 @@ public class TdGame implements GameInterface, ArenaInterface {
     }
 
     @Override
+    public int getWave() {
+        return waveNumber;
+    }
+
+    @Override
     public void setSelected(TowerTypes tt) {
         selected = tt;
     }

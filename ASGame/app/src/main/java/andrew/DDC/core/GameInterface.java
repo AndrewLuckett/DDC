@@ -12,4 +12,6 @@ public interface GameInterface {
     int getScore();
     int getCoins();
     boolean isRunning();
+
+    int getWave();
 }

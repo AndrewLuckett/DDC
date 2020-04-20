@@ -17,20 +17,20 @@ public abstract class Creep implements GameObjectInterface {
     float angle = 0;
     int nextShotIn = 0;
 
-    public final float TODEGREES = (float) (180/Math.PI);
+    public final float TODEGREES = (float) (180 / Math.PI);
 
-    public void shot(int dmg){
+    public void shot(int dmg) {
         hp -= dmg;
     }
 
     public boolean isExpired() {
-        if(hp <= 0){
+        if (hp <= 0) {
             container.addCoins(bounty);
             container.addScore(bounty);
             return true;
         }
-        if(pos.getX() > container.getSize() + 1 || pos.getY() > container.getSize() + 1){
-            container.addCoins(-penalty);
+        if (pos.getX() > container.getSize() + 1 || pos.getY() > container.getSize() + 1) {
+            container.addCoins(-(penalty + dmg));
             return true;
         }
         return false;
@@ -40,7 +40,7 @@ public abstract class Creep implements GameObjectInterface {
         return pos;
     }
 
-    public CreepTypes getType(){
+    public CreepTypes getType() {
         return type;
     }
 }

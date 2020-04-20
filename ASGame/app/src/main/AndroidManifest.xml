@@ -9,7 +9,7 @@
         android:roundIcon="@drawable/bin2den2"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
+        <activity android:name=".game.front.TdOverActivity"></activity>
         <activity android:name=".game.front.TdMenuActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -17,13 +17,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".game.front.TdGameActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:label="@string/title_activity_td_game">
-
-        </activity>
+            android:label="@string/title_activity_td_game"></activity>
     </application>
 
 </manifest>

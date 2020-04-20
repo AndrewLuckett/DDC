@@ -1,6 +1,7 @@
 package andrew.DDC.game.front;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -20,6 +21,7 @@ import andrew.DDC.game.back.towers.TowerTypes;
 public class TdGameActivity extends AppCompatActivity {
     GameViewInterface a;
     TdGame g;
+    GameThread game;
 
     @SuppressLint("HandlerLeak")
     private final Handler mHandler = new Handler() {
@@ -41,6 +43,13 @@ public class TdGameActivity extends AppCompatActivity {
                 case update:
                     a.update();
                     break;
+                case finished:
+                    Intent i = new Intent(TdGameActivity.this, TdOverActivity.class);
+                    i.putExtra("score",m.getData().getInt("score"));
+                    i.putExtra("wave",m.getData().getInt("wave"));
+                    startActivity(i);
+                    game = null;
+                    finish();
             }
         }
     };

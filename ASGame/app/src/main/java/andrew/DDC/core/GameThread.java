@@ -97,6 +97,8 @@ public class GameThread extends Thread {
         Message msg = mHandler.obtainMessage();
         Bundle b = new Bundle();
         b.putSerializable("mType", MessageTypes.finished);
+        b.putInt("score",theGame.getScore());
+        b.putInt("wave",theGame.getWave());
         msg.setData(b);
         mHandler.sendMessage(msg);
     }
