@@ -25,7 +25,7 @@ public class FlyingCreep extends Creep {
 
     @Override
     public Drawable getDrawable() {
-        return new Drawable(R.drawable.cr_flying, 90, pos);
+        return new Drawable(R.drawable.cr_flying, angle * TODEGREES + 90, pos);
     }
 
     @Override

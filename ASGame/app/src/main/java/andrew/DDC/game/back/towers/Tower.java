@@ -1,5 +1,7 @@
 package andrew.DDC.game.back.towers;
 
+import android.util.Log;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -12,7 +14,7 @@ import andrew.DDC.game.back.creeps.Creep;
 import andrew.DDC.game.back.creeps.CreepTypes;
 
 public class Tower implements GameObjectInterface {
-    ArenaInterface container;
+    private ArenaInterface container;
     private TowerTypes type;
     private boolean expired = false;
 
@@ -30,7 +32,7 @@ public class Tower implements GameObjectInterface {
 
     private final float TODEGREES = (float) (180/Math.PI);
 
-    public Tower(ArenaInterface container, TowerTypes type, Vec2 pos, int hp, HashSet<CreepTypes> targets, float range, int dmg, int shotClDn, float angle, float rot){
+    Tower(ArenaInterface container, TowerTypes type, Vec2 pos, int hp, HashSet<CreepTypes> targets, float range, int dmg, int shotClDn, float angle, float rot){
         this.container = container;
         this.type = type;
         this.pos = pos;
@@ -69,9 +71,13 @@ public class Tower implements GameObjectInterface {
 
         NeShTi -= dtms;
         if(closest != null){
+            double b = centre.angleTo(closest.getPos());
+            double dot = getDifference(angle, b); // Difference of two
+            turn(dot > 0, dtms);
             //TODO aim at closest and shoot if available
 
-            if(closestDist < range && NeShTi <= 0) { // && within fov
+            if(closestDist < range && NeShTi <= 0 && Math.abs(dot) < 0.25) {
+                //within range and roughly within 30 degrees of facing
                 NeShTi = shotClDn;
                 closest.shot(dmg);
             }
@@ -90,6 +96,17 @@ public class Tower implements GameObjectInterface {
         }
     }
 
+    private static double getDifference(double b1, double b2) {
+        double tau = Math.PI * 2;
+        double r = (b2 - b1) % tau;
+        if (r < -Math.PI)
+            r += tau;
+        if (r >= Math.PI)
+            r -= tau;
+
+        return r;
+    }
+
     @Override
     public void shot(int dmg){
         hp -= dmg;
@@ -97,7 +114,7 @@ public class Tower implements GameObjectInterface {
 
     @Override
     public Drawable getDrawable() {
-        return new Drawable(type.getGId(), angle * TODEGREES, pos, true);
+        return new Drawable(type.getGId(), angle * TODEGREES + 90, pos, true);
     }
 
     @Override

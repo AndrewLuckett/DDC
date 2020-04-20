@@ -19,7 +19,7 @@ public class CreepFactory {
             case Flying:
                 return new FlyingCreep(container, pos, multiplier);
             case Strong:
-                break;
+                return new StrongCreep(container, pos, multiplier);
         }
         return null;
     }

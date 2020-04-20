@@ -12,7 +12,7 @@ public class FastCreep extends BasicCreep {
     }
 
     @Override
-    public Drawable getDrawable(){
-        return new Drawable(R.drawable.cr_fast, 90, pos);
+    public Drawable getDrawable() {
+        return new Drawable(R.drawable.cr_fast, angle * TODEGREES + 90, pos);
     }
 }

@@ -15,7 +15,8 @@ public class TowerBuilder {
     private HashSet<CreepTypes> targets = new HashSet<>(); //Things this tower can target
     private float range = 1.5f;
     private int dmg = 1;
-    private int shotClDn = 500; //ShotCooldown
+
+    private int shotClDn = 1000; //ShotCooldown
 
     private float angle = 0; //Facing direction
     private float rot = 3.141f; //Rate of turn, 0.25 rps

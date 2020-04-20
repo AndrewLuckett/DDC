@@ -31,6 +31,7 @@ public class TdGame implements GameInterface, ArenaInterface {
 
     private long nextWaveTime; //ms
     private long nextWavein; //ms
+    private int waveNumber = 0;
 
     private TowerTypes selected = TowerTypes.Base;
 
@@ -62,12 +63,12 @@ public class TdGame implements GameInterface, ArenaInterface {
         } else {
             for (int x = 0; x < size - 1; x++) {
                 if (x % 4 == 1) {
-                    for (int y = 0; y < size - 4; y++) {
+                    for (int y = 0; y < size / 2; y++) {
                         tb.atPos(new Vec2(x, y));
                         towers.add(tb.build());
                     }
                 } else if (x % 2 == 1) {
-                    for (int y = 4; y < size; y++) {
+                    for (int y = size / 2; y < size; y++) {
                         tb.atPos(new Vec2(x, y));
                         towers.add(tb.build());
                     }
@@ -86,9 +87,17 @@ public class TdGame implements GameInterface, ArenaInterface {
         nextWavein -= dtms;
         if (nextWavein <= 0) {
             nextWavein = nextWaveTime;
-
-            creeps.add(CreepFactory.getCreep(this, CreepTypes.Basic, new Vec2(-1, size / 2f), 1f));
-            //TODO Add wave
+            waveNumber++;
+            float strength = 1 + waveNumber / 13.37f;
+            Random r = new Random();
+            float pos = size / 2f;
+            if (waveNumber > 5) {
+                creeps.add(CreepFactory.getCreep(this, CreepTypes.Flying, new Vec2(-1, pos - 2 + r.nextFloat() * 4), strength));
+                creeps.add(CreepFactory.getCreep(this, CreepTypes.Eater, new Vec2(-1, pos - 2 + r.nextFloat() * 4), strength));
+            }
+            creeps.add(CreepFactory.getCreep(this, CreepTypes.Basic, new Vec2(-1, pos - 2 + r.nextFloat() * 4), strength));
+            creeps.add(CreepFactory.getCreep(this, CreepTypes.Strong, new Vec2(-1, pos - 2 + r.nextFloat() * 4), strength));
+            creeps.add(CreepFactory.getCreep(this, CreepTypes.Fast, new Vec2(-1, pos - 2 + r.nextFloat() * 4), strength));
         }
 
         updateAll(dtms, creeps);
@@ -147,18 +156,19 @@ public class TdGame implements GameInterface, ArenaInterface {
 
             switch (selected) { //TODO Range dmg shtcldn rot
                 case Base:
+                case Radar:
                     break;
                 case Basic:
                     tb.withRange(2);
+                    tb.withShotClDn(500);
                     break;
                 case Gauss:
                     tb.withRange(2);
                     tb.withDmg(2);
                     break;
-                case Radar:
-
-                    break;
                 case Aa:
+                    tb.withDmg(4);
+                    tb.withRange(4);
                     break;
             }
 

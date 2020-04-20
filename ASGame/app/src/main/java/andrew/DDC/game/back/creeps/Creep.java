@@ -10,9 +10,14 @@ public abstract class Creep implements GameObjectInterface {
     int hp;
     Vec2 pos;
     int dmg;
+    int shotClDn = 500;
     float velo;
     int bounty;
     int penalty;
+    float angle = 0;
+    int nextShotIn = 0;
+
+    public final float TODEGREES = (float) (180/Math.PI);
 
     public void shot(int dmg){
         hp -= dmg;
