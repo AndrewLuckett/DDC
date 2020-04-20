@@ -30,19 +30,19 @@ public class BasicCreep extends Creep {
         float closestDist;
 
         //Left wall
-        closest = new Vec2(0, pos.getY());
-        closestDist = pos.getX();
+        closest = new Vec2(-0.5f, pos.getY());
+        closestDist = pos.getX() + 0.5f;
 
 
         if (pos.getY() < size / 2) { //Top wall
-            if (pos.getY() < closestDist) {
-                closest = new Vec2(pos.getX(), 0);
-                closestDist = pos.getY();
+            if (pos.getY() + 0.5f < closestDist) {
+                closest = new Vec2(pos.getX(), -0.5f);
+                closestDist = pos.getY() + 0.5f;
             }
         } else { //Bottom wall
-            if (size - pos.getY() < closestDist) {
-                closest = new Vec2(pos.getX(), size);
-                closestDist = size - pos.getY();
+            if (size - pos.getY() +0.5f < closestDist) {
+                closest = new Vec2(pos.getX(), size + 0.5f);
+                closestDist = size - pos.getY() + 0.5f;
             }
         }
 
@@ -55,10 +55,11 @@ public class BasicCreep extends Creep {
         ArrayList<? extends GameObjectInterface> obj = container.getObstacles();
         for (GameObjectInterface c : obj) {
             Vec2 cpos = c.getPos();
-            float dist = pos.distTo(new Vec2(cpos.getX() + 0.5f, cpos.getY() + 0.5f));
+            cpos = new Vec2(cpos.getX() + 0.5f, cpos.getY() + 0.5f);
+            float dist = pos.distTo(cpos);
             if (dist < closestDist) {
                 closestDist = dist;
-                closest = c.getPos();
+                closest = cpos;
             }
         }
 
@@ -67,7 +68,7 @@ public class BasicCreep extends Creep {
         double dot = getDifference(angle, b); // Difference of two
 
         if (Math.abs(dot) < 3 && closestDist < 0.8) { // If infront and close
-            angle += b;
+            angle = (float) (b + Math.PI/2f);
         }
 
         //Log.v("info",pos+" "+b+" "+dot+" " + angle+" "+closestDist);

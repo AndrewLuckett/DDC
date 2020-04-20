@@ -54,10 +54,11 @@ public class EaterCreep extends Creep {
         ArrayList<? extends GameObjectInterface> obj = container.getObstacles();
         for (GameObjectInterface c : obj) {
             Vec2 cpos = c.getPos();
-            float dist = pos.distTo(new Vec2(cpos.getX() + 0.5f, cpos.getY() + 0.5f));
+            cpos = new Vec2(cpos.getX() + 0.5f, cpos.getY() + 0.5f);
+            float dist = pos.distTo(cpos);
             if (dist < closestDist) {
                 closestDist = dist;
-                closest = c.getPos();
+                closest = cpos;
                 closestTower = c;
             }
         }
@@ -67,19 +68,21 @@ public class EaterCreep extends Creep {
         double dot = getDifference(angle, b); // Difference of two
 
         nextShotIn -= dtms;
-        if (Math.abs(dot) < 3 && closestDist < 0.8) { // If infront and close
-            if(closestTower == null) {
-                angle += b;
 
-            }else{
-                if(nextShotIn <= 0){
-                    nextShotIn = shotClDn;
-                    closestTower.shot(dmg);
+        if (closestTower == null) {
+            angle = (float) (b + Math.PI);
+        } else if(closestDist > 0.8) {
+            angle = (float) b;
+        }else{
+            angle = (float) b;
+            if (nextShotIn <= 0) {
+                nextShotIn = shotClDn;
+                closestTower.shot(dmg);
 
-                }
-                return;
             }
+            return;
         }
+
 
         float newx = pos.getX();
         float newy = pos.getY();
