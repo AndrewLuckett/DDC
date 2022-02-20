@@ -80,8 +80,8 @@ public class ArenaView extends View implements GameViewInterface {
 
     public void update() {
         stuff = game.getDrawables();
-        score = game.getScore();
-        coins = game.getCoins();
+        score = (int) game.getValue("score");
+        coins = (int) game.getValue("coins");
         invalidate();
     }
 

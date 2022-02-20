@@ -9,9 +9,11 @@ public interface GameInterface {
     void update(float dtms);
     Bundle handleInput(Point p);
     void forEachDrawable(Consumer<Drawable> d);
-    int getScore();
-    int getCoins();
+    float getValue(String name);
+    String getString(String name);
     boolean isRunning();
 
     int getWave();
+
+    Bundle stackDoneData(Bundle b);
 }

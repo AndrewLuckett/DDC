@@ -27,7 +27,7 @@ public class GameThread extends Thread {
     //Concurrent modification errors at worst
 
     private float fps;
-    //Temp
+    private float tps;
 
     private GameInterface theGame;
 
@@ -75,9 +75,10 @@ public class GameThread extends Thread {
                 lastDraw = now;
 
                 fps = 1000f / dtfd;
+                tps = 1000f / dtms;
 
-                Log.v("Fps", "fps = " + 1000f / dtfd);
-                Log.v("Fps", "tps = " + 1000f / dtms);
+                Log.v("Fps", "fps = " + fps);
+                Log.v("Fps", "tps = " + tps);
             }
 
 
@@ -97,11 +98,12 @@ public class GameThread extends Thread {
         Message msg = mHandler.obtainMessage();
         Bundle b = new Bundle();
         b.putSerializable("mType", MessageTypes.finished);
-        b.putInt("score",theGame.getScore());
-        b.putInt("wave",theGame.getWave());
+        b = theGame.stackDoneData(b);
         msg.setData(b);
         mHandler.sendMessage(msg);
     }
+
+
 
     private void handleInput(Point p) {
         Bundle b = theGame.handleInput(p);
@@ -148,13 +150,15 @@ public class GameThread extends Thread {
         safeToDraw = safe;
     }
 
-    public int getScore() {
-        return theGame.getScore();
-        //return (int) fps;
+    public float getValue(String name) {
+        switch (name){
+            case "fps": return fps;
+            case "tps": return tps;
+            default: return theGame.getValue(name);
+        }
     }
 
-    public int getCoins() {
-        return theGame.getCoins();
-        //return db.size();
+    public String getString(String name) {
+        return theGame.getString(name);
     }
 }

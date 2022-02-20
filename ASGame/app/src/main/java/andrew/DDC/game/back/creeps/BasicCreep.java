@@ -40,7 +40,7 @@ public class BasicCreep extends Creep {
                 closestDist = pos.getY() + 0.5f;
             }
         } else { //Bottom wall
-            if (size - pos.getY() +0.5f < closestDist) {
+            if (size - pos.getY() + 0.5f < closestDist) {
                 closest = new Vec2(pos.getX(), size + 0.5f);
                 closestDist = size - pos.getY() + 0.5f;
             }
@@ -68,7 +68,7 @@ public class BasicCreep extends Creep {
         double dot = getDifference(angle, b); // Difference of two
 
         if (Math.abs(dot) < 3 && closestDist < 0.8) { // If infront and close
-            angle = (float) (b + Math.PI/2f);
+            angle -= dot;
         }
 
         //Log.v("info",pos+" "+b+" "+dot+" " + angle+" "+closestDist);

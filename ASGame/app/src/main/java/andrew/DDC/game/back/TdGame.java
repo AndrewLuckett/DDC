@@ -193,13 +193,18 @@ public class TdGame implements GameInterface, ArenaInterface {
     }
 
     @Override
-    public int getScore() {
-        return score;
+    public float getValue(String name) {
+        switch (name){
+            case "score": return score;
+            case "wave": return waveNumber;
+            case "coins": return coins;
+            default: return 0;
+        }
     }
 
     @Override
-    public int getCoins() {
-        return coins;
+    public String getString(String name) {
+        return "";
     }
 
     @Override
@@ -210,6 +215,13 @@ public class TdGame implements GameInterface, ArenaInterface {
     @Override
     public int getWave() {
         return waveNumber;
+    }
+
+    @Override
+    public Bundle stackDoneData(Bundle b) {
+        b.putInt("score", score);
+        b.putInt("wave", waveNumber);
+        return b;
     }
 
     @Override
